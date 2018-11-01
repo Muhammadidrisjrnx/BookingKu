@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BookingKu</string>
+    <string name="timepicker_title">Select Time</string>
+    <string name="datepicker_title">Select Date</string>
 </resources>
