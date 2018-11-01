@@ -20,6 +20,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class BookingActivity extends AppCompatActivity implements BookingView, View.OnClickListener{
+    private static final int UPDATE_TV_DATE_REQUEST = 0;
+    private static final int UPDATE_TV_TIME_REQUEST = 1;
+
     @BindView(R.id.tv_date) EditText tvDate;
     @BindView(R.id.tv_time) EditText tvTime;
     @BindView(R.id.bookNowBtn) Button bookBtn;
@@ -81,11 +84,11 @@ public class BookingActivity extends AppCompatActivity implements BookingView, V
     }
 
     @Override
-    public void updateUI(int Request, String format) {
-        switch (Request){
-            case 0: tvDate.setText(format);
+    public void updateUI(int request, String format) {
+        switch (request){
+            case UPDATE_TV_DATE_REQUEST: tvDate.setText(format);
             break;
-            case 1: tvTime.setText(format);
+            case UPDATE_TV_TIME_REQUEST: tvTime.setText(format);
             break;
         }
     }
