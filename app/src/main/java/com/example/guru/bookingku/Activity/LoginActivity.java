@@ -1,4 +1,4 @@
-package com.example.guru.bookingku;
+package com.example.guru.bookingku.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import com.example.guru.bookingku.R;
 import com.facebook.*;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -22,11 +24,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
-
-public class Main2Activity extends AppCompatActivity {
-
+public class LoginActivity extends AppCompatActivity {
     private static final String EMAIL = "email";
-
     private LoginButton btnFacebook;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -36,14 +35,23 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_login);
+
+        TextView tvregister=(TextView)findViewById(R.id.txtregister);
+        tvregister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
+            }
+        });
+
         pref = getSharedPreferences("login", MODE_PRIVATE);
         callbackManager = CallbackManager.Factory.create();
         btnFacebook = findViewById(R.id.facebookSigninBtn);
         //cetakhash();
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail().build();
-        final GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(Main2Activity.this, signInOptions);
+        final GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(LoginActivity.this, signInOptions);
         SignInButton googleSignButton = findViewById(R.id.sign_in_button);
         googleSignButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +71,6 @@ public class Main2Activity extends AppCompatActivity {
                     editor = pref.edit();
                     editor.putString("user",txtusername.getText().toString());
                     editor.commit();
-
                     Intent in=new Intent(getApplicationContext(),Home.class);
                     startActivity(in);
                     finish();
@@ -85,16 +92,17 @@ public class Main2Activity extends AppCompatActivity {
                             String username = jsonObject.optString("first_name", "") + jsonObject.optString("last_name", "") + jsonObject.getString("id");
                             String email = jsonObject.optString("email", "");
                             String avatar = "https://graph.facebook.com/" + userId + "/picture?type=large";
-
                             editor = pref.edit();
-                            editor.putString("user",realName);
+                            editor.putString("user",userId);
+                            editor.putString("name",realName);
+                            editor.putString("username",username);
+                            editor.putString("email",email);
+                            editor.putString("avatar",avatar);
                             editor.commit();
-
                             Intent in=new Intent(getApplicationContext(),Home.class);
                             startActivity(in);
                             finish();
-
-                            Toast.makeText(Main2Activity.this, email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, email, Toast.LENGTH_SHORT).show();
                         } catch (JSONException ignored) { }
                     }
                 });
@@ -103,15 +111,12 @@ public class Main2Activity extends AppCompatActivity {
                 graphRequest.setParameters(parameters);
                 graphRequest.executeAsync();
                  }
-
             @Override
             public void onCancel() {
-
             }
 
             @Override
             public void onError(FacebookException error) {
-
             }
         });
     }
@@ -119,12 +124,10 @@ public class Main2Activity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == 997) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
-
     }
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
@@ -143,10 +146,15 @@ public class Main2Activity extends AppCompatActivity {
             //intent
             Toast.makeText(getApplicationContext(),realName+" , "+username,Toast.LENGTH_LONG).show();
             editor = pref.edit();
-            editor.putString("user",email);
+            editor.putString("user",userId);
+            editor.putString("name",realName);
+            editor.putString("username",username);
+            editor.putString("email",email);
+            editor.putString("avatar",avatar);
             editor.commit();
             Intent in=new Intent(getApplicationContext(),Home.class);
             startActivity(in);
+            finish();
         } catch (ApiException ignored) {
         }
     }
