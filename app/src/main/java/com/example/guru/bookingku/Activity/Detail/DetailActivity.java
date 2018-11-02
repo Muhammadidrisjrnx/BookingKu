@@ -1,8 +1,8 @@
 package com.example.guru.bookingku.Activity.Detail;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,23 +14,28 @@ import com.example.guru.bookingku.Activity.Booking.BookingActivity;
 import com.example.guru.bookingku.Model.Item;
 import com.example.guru.bookingku.R;
 
-public class DetailActivity extends AppCompatActivity implements DetailView, View.OnClickListener{
+public class DetailActivity extends AppCompatActivity implements DetailView, View.OnClickListener {
 
-    @BindView(R.id.addCartBtn) Button addCartBtn;
-    @BindView(R.id.iv_image) ImageView ivImage;
-    @BindView(R.id.tv_item_name) TextView tvItemName;
-    @BindView(R.id.tv_item_desc) TextView tvItemDesc;
-    @BindView(R.id.bookNowBtn) Button bookNowBtn;
+    @BindView(R.id.addCartBtn)
+    Button addCartBtn;
+    @BindView(R.id.iv_image)
+    ImageView ivImage;
+    @BindView(R.id.tv_item_name)
+    TextView tvItemName;
+    @BindView(R.id.tv_item_desc)
+    TextView tvItemDesc;
+    @BindView(R.id.bookNowBtn)
+    Button bookNowBtn;
 
-    DetailPresenter presenter;
+    final DetailPresenter presenter = new DetailPresenter();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
-        presenter = new DetailPresenter();
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
+        if (extras != null) {
             Item item = extras.getParcelable("KEY_DETAIL");
             presenter.setItem(item);
         }
@@ -70,9 +75,9 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     @Override
     public void onClick(View v) {
-        if(v == addCartBtn)
+        if (v == addCartBtn)
             presenter.onAddCartClicked();
-        if(v == bookNowBtn)
+        if (v == bookNowBtn)
             Toast.makeText(this, "Booked", Toast.LENGTH_SHORT).show(); //presenter.onBookNowClicked
     }
 }

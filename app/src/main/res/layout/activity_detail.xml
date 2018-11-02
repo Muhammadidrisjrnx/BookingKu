@@ -37,7 +37,7 @@
         android:text="CART"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-  />
+    />
     <Button
         android:id="@+id/bookNowBtn"
         android:layout_width="match_parent"

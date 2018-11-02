@@ -1,6 +1,6 @@
 package com.example.guru.bookingku.Activity.Base;
 
-public interface Presenter <T> {
+public interface PresenterActivity<T> {
     void onAttach(T view);
     void onDetach();
 }

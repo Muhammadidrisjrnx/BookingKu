@@ -1,14 +1,15 @@
 package com.example.guru.bookingku.Activity.Detail;
-import com.example.guru.bookingku.Activity.Base.Presenter;
 
+import com.example.guru.bookingku.Activity.Base.PresenterActivity;
 import com.example.guru.bookingku.Model.Item;
 
 
-public class DetailPresenter implements Presenter<DetailView> {
+public class DetailPresenter implements PresenterActivity<DetailView> {
 
     Item item;
     DetailView view;
     boolean isItemNull = item == null;
+
     @Override
     public void onAttach(DetailView view) {
         this.view = view;

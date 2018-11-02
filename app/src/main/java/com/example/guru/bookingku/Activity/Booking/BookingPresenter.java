@@ -1,8 +1,8 @@
 package com.example.guru.bookingku.Activity.Booking;
 
-import com.example.guru.bookingku.Activity.Base.Presenter;
+import com.example.guru.bookingku.Activity.Base.PresenterActivity;
 
-public class BookingPresenter implements Presenter<BookingView> {
+public class BookingPresenter implements PresenterActivity<BookingView> {
 
     BookingView view;
 

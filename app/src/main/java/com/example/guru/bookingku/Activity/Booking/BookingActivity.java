@@ -26,13 +26,12 @@ public class BookingActivity extends AppCompatActivity implements BookingView, V
     @BindView(R.id.tv_date) EditText tvDate;
     @BindView(R.id.tv_time) EditText tvTime;
     @BindView(R.id.bookNowBtn) Button bookBtn;
-    BookingPresenter presenter;
+    final BookingPresenter presenter = new BookingPresenter();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
         ButterKnife.bind(this);
-        presenter = new BookingPresenter();
         tvDate.setOnClickListener(this);
         tvTime.setOnClickListener(this);
         bookBtn.setOnClickListener(this);
@@ -45,8 +44,8 @@ public class BookingActivity extends AppCompatActivity implements BookingView, V
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         presenter.onDetach();
     }
 
