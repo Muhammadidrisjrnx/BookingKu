@@ -1,10 +1,12 @@
-package com.example.guru.bookingku;
+package com.example.guru.bookingku.Util;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import com.example.guru.bookingku.Activity.Home;
+import com.example.guru.bookingku.Activity.LoginActivity;
 
 public class ControlClass extends Activity {
     private SharedPreferences sharedPreferences;
@@ -14,7 +16,7 @@ public class ControlClass extends Activity {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE);
         if (sharedPreferences.getString("user","").isEmpty()){
-            Intent in=new Intent(getApplicationContext(),Main2Activity.class);
+            Intent in=new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(in);
             finish();
         }else{

@@ -1,4 +1,4 @@
-package com.example.guru.bookingku;
+package com.example.guru.bookingku.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +9,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import com.example.guru.bookingku.R;
+import com.example.guru.bookingku.Util.ControlClass;
 
 public class Home extends AppCompatActivity {
+    //untuk list produk
 
     private SharedPreferences sharedPreferences;
     SharedPreferences pref;
