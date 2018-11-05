@@ -1,8 +1,10 @@
 package com.example.guru.bookingku.Activity.Main;
 
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -18,6 +20,20 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
 
     @BindView(R.id.bottomnav) BottomNavigationView bottomNavigationView;
     final MainPresenter presenter = new MainPresenter();
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Keluar aplikasi")
+                .setMessage("Apakah anda yakin ingin keluar?")
+                .setNegativeButton("Tidak", null)
+                .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        MainActivity.super.onBackPressed();
+                    }
+                }).create().show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +77,12 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
                     .hide(currentFragment)
                     .add(R.id.container, fragment)
                     .show(fragment)
-                    .addToBackStack(currentFragment.getClass().getSimpleName())
                     .commit();
         }
         else {
             transaction
                     .hide(currentFragment)
                     .show(fragment)
-                    .addToBackStack(currentFragment.getClass().getSimpleName())
                     .commit();
         }
     }
@@ -86,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
             transaction
                     .hide(currentFragment)
                     .show(fragment)
-                    .addToBackStack(currentFragment.getClass().getSimpleName())
                     .commit();
         }
     }

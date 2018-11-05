@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.guru.bookingku.Activity.Main.MainActivity;
 import com.example.guru.bookingku.R;
 import com.facebook.*;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -32,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtusername;
     EditText txtpassword;
     CallbackManager callbackManager;
+    private AccessToken accessToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,13 +74,17 @@ public class LoginActivity extends AppCompatActivity {
                     editor = pref.edit();
                     editor.putString("user",txtusername.getText().toString());
                     editor.commit();
-                    Intent in=new Intent(getApplicationContext(),Home.class);
+                    Intent in=new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(in);
                     finish();
                 }
             }
         });
         btnFacebook.setReadPermissions(Arrays.asList(EMAIL));
+        if (accessToken != null) {
+            accessToken = com.facebook.AccessToken.getCurrentAccessToken();
+            LoginManager.getInstance().logOut();
+        }
         btnFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -99,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("email",email);
                             editor.putString("avatar",avatar);
                             editor.commit();
-                            Intent in=new Intent(getApplicationContext(),Home.class);
+                            Intent in=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(in);
                             finish();
                             Toast.makeText(LoginActivity.this, email, Toast.LENGTH_SHORT).show();
@@ -152,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
             editor.putString("email",email);
             editor.putString("avatar",avatar);
             editor.commit();
-            Intent in=new Intent(getApplicationContext(),Home.class);
+            Intent in=new Intent(getApplicationContext(),MainActivity.class);
             startActivity(in);
             finish();
         } catch (ApiException ignored) {

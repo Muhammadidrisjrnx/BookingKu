@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+import com.example.guru.bookingku.Activity.Main.MainActivity;
 import com.example.guru.bookingku.R;
 import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -76,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
             editor.putString("avatar",avatar);
             editor.commit();
 
-            Intent intent = new Intent(getApplicationContext(), Home.class);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } catch (ApiException ignored) {
