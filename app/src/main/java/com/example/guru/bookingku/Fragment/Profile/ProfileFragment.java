@@ -21,7 +21,6 @@ import com.example.guru.bookingku.Util.ControlClass;
 import com.facebook.login.LoginManager;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import java.util.ResourceBundle;
 
 /**
  * A simple {@link Fragment} subclass.

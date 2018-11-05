@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.guru.bookingku.Activity.Main.MainActivity;
+import com.example.guru.bookingku.Network.BookingClient;
+import com.example.guru.bookingku.Network.BookingService;
 import com.example.guru.bookingku.R;
 import com.facebook.*;
 import com.facebook.login.LoginManager;
@@ -24,8 +26,12 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import org.json.JSONException;
 import org.json.JSONObject;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.Arrays;
+
 public class LoginActivity extends AppCompatActivity {
     private static final String EMAIL = "email";
     private LoginButton btnFacebook;
@@ -35,16 +41,17 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtpassword;
     CallbackManager callbackManager;
     private AccessToken accessToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        TextView tvregister=(TextView)findViewById(R.id.txtregister);
+        TextView tvregister = (TextView) findViewById(R.id.txtregister);
         tvregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
+                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
             }
         });
 
@@ -63,20 +70,46 @@ public class LoginActivity extends AppCompatActivity {
                 startActivityForResult(intent, 997);
             }
         });
-        txtusername=(EditText)findViewById(R.id.txtusername);
-        txtpassword=(EditText)findViewById(R.id.txtpassword);
-        Button btnlogin=(Button)findViewById(R.id.btnlogin);
+        txtusername = (EditText) findViewById(R.id.txtusername);
+        txtpassword = (EditText) findViewById(R.id.txtpassword);
+        Button btnlogin = (Button) findViewById(R.id.btnlogin);
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txtusername.getText().toString().equalsIgnoreCase("aji") &&
-                        txtpassword.getText().toString().equalsIgnoreCase("aji")){
-                    editor = pref.edit();
-                    editor.putString("user",txtusername.getText().toString());
-                    editor.commit();
-                    Intent in=new Intent(getApplicationContext(),MainActivity.class);
-                    startActivity(in);
-                    finish();
+//                if (txtusername.getText().toString().equalsIgnoreCase("aji") &&
+//                        txtpassword.getText().toString().equalsIgnoreCase("aji")) {
+//                    editor = pref.edit();
+//                    editor.putString("user", txtusername.getText().toString());
+//                    editor.commit();
+//                    Intent in = new Intent(getApplicationContext(), MainActivity.class);
+//                    startActivity(in);
+//                    finish();
+//                }
+                final String username = txtusername.getText().toString().trim();
+                final String password = txtpassword.getText().toString().trim();
+                if(username.isEmpty()|| password.isEmpty()){
+                    Toast.makeText(LoginActivity.this, "please fill my heart first to send a request :(", Toast.LENGTH_SHORT).show();
+                } else {
+                    BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
+                    Call<Void> call = bookingService.login(username, password);
+                    call.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if(response.isSuccessful()){
+                                editor = pref.edit();
+                                editor.putString("user", username);
+                                editor.apply();
+                                Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(in);
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
                 }
             }
         });
@@ -100,24 +133,26 @@ public class LoginActivity extends AppCompatActivity {
                             String email = jsonObject.optString("email", "");
                             String avatar = "https://graph.facebook.com/" + userId + "/picture?type=large";
                             editor = pref.edit();
-                            editor.putString("user",userId);
-                            editor.putString("name",realName);
-                            editor.putString("username",username);
-                            editor.putString("email",email);
-                            editor.putString("avatar",avatar);
+                            editor.putString("user", userId);
+                            editor.putString("name", realName);
+                            editor.putString("username", username);
+                            editor.putString("email", email);
+                            editor.putString("avatar", avatar);
                             editor.commit();
-                            Intent in=new Intent(getApplicationContext(),MainActivity.class);
+                            Intent in = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(in);
                             finish();
                             Toast.makeText(LoginActivity.this, email, Toast.LENGTH_SHORT).show();
-                        } catch (JSONException ignored) { }
+                        } catch (JSONException ignored) {
+                        }
                     }
                 });
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "name,email");
                 graphRequest.setParameters(parameters);
                 graphRequest.executeAsync();
-                 }
+            }
+
             @Override
             public void onCancel() {
             }
@@ -127,6 +162,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -136,6 +172,7 @@ public class LoginActivity extends AppCompatActivity {
             handleSignInResult(task);
         }
     }
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -144,22 +181,22 @@ public class LoginActivity extends AppCompatActivity {
             String email = account.getEmail();
             String userId = account.getId();
             String avatar;
-            if(account.getPhotoUrl()!=null) {
+            if (account.getPhotoUrl() != null) {
                 avatar = account.getPhotoUrl().toString();
-            }else{
+            } else {
                 avatar = null;
             }
 
             //intent
-            Toast.makeText(getApplicationContext(),realName+" , "+username,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), realName + " , " + username, Toast.LENGTH_LONG).show();
             editor = pref.edit();
-            editor.putString("user",userId);
-            editor.putString("name",realName);
-            editor.putString("username",username);
-            editor.putString("email",email);
-            editor.putString("avatar",avatar);
+            editor.putString("user", userId);
+            editor.putString("name", realName);
+            editor.putString("username", username);
+            editor.putString("email", email);
+            editor.putString("avatar", avatar);
             editor.commit();
-            Intent in=new Intent(getApplicationContext(),MainActivity.class);
+            Intent in = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(in);
             finish();
         } catch (ApiException ignored) {

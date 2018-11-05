@@ -20,7 +20,7 @@ android {
 
 dependencies {
 
-    compile 'com.github.bumptech.glide:glide:3.8.0'
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
     implementation 'com.facebook.android:facebook-login:[4,5)'
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -30,7 +30,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
+    //retrofit2
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    //logging
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.jakewharton:butterknife:9.0.0-rc1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
