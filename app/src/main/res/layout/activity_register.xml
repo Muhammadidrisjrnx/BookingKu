@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"/>
 
         <EditText
+                android:inputType="number"
             android:layout_margin="10dp"
             android:id="@+id/txtTelp"
             android:hint="telp"
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"/>
 
         <EditText
+                android:inputType="textPassword"
             android:layout_margin="10dp"
             android:id="@+id/txtPassword"
             android:hint="password"
@@ -40,6 +42,7 @@
             android:layout_height="wrap_content"/>
 
         <EditText
+                android:inputType="textPassword"
             android:layout_margin="10dp"
             android:id="@+id/txtCPassword"
             android:hint="confirm password"
@@ -60,7 +63,6 @@
             android:layout_height="wrap_content"/>
         <com.facebook.login.widget.LoginButton
                 android:visibility="gone"
-
                 android:id="@+id/facebookSigninBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

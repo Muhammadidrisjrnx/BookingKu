@@ -136,17 +136,36 @@ public class LoginActivity extends AppCompatActivity {
                             String username = jsonObject.optString("first_name", "") + jsonObject.optString("last_name", "") + jsonObject.getString("id");
                             String email = jsonObject.optString("email", "");
                             String avatar = "https://graph.facebook.com/" + userId + "/picture?type=large";
-                            editor = pref.edit();
-                            //editor.putInt("userid", userId);
-                            editor.putString("name", realName);
-                            editor.putString("username", username);
-                            editor.putString("email", email);
-                            editor.putString("avatar", avatar);
-                            editor.commit();
-                            Intent in = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(in);
-                            finish();
-                            Toast.makeText(LoginActivity.this, email, Toast.LENGTH_SHORT).show();
+
+
+                            BookingService service = BookingClient.getRetrofit().create(BookingService.class);
+                            Call<LoginResponse> call = service.loginMedsos(realName, email, "facebook", avatar);
+                            call.enqueue(new Callback<LoginResponse>() {
+                                @Override
+                                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                                    boolean success = response.body().getSuccess();
+                                    int userId = response.body().getUserId();
+                                    if(response.isSuccessful()){
+                                        if(success){
+                                            editor = pref.edit();
+                                            editor.putInt("userid", userId);
+                                            editor.apply();
+
+                                            Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                                            startActivity(in);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                                    Toast.makeText(LoginActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                         } catch (JSONException ignored) {
                         }
                     }
@@ -192,17 +211,34 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             //intent
-            Toast.makeText(getApplicationContext(), realName + " , " + username, Toast.LENGTH_LONG).show();
-            editor = pref.edit();
-            editor.putString("user", userId);
-            editor.putString("name", realName);
-            editor.putString("username", username);
-            editor.putString("email", email);
-            editor.putString("avatar", avatar);
-            editor.commit();
-            Intent in = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(in);
-            finish();
+            BookingService service = BookingClient.getRetrofit().create(BookingService.class);
+            Call<LoginResponse> call = service.loginMedsos(realName, email, "gmail", avatar);
+            call.enqueue(new Callback<LoginResponse>() {
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                    boolean success = response.body().getSuccess();
+                    int userId = response.body().getUserId();
+                    if(response.isSuccessful()){
+                        if(success){
+                            editor = pref.edit();
+                            editor.putInt("userid", userId);
+                            editor.apply();
+
+                            Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(in);
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    t.printStackTrace();
+                    Toast.makeText(LoginActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
+                }
+            });
         } catch (ApiException ignored) {
         }
     }
