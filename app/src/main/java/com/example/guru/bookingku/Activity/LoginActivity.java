@@ -32,6 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import javax.security.auth.login.LoginException;
 import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
@@ -78,15 +79,6 @@ public class LoginActivity extends AppCompatActivity {
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (txtusername.getText().toString().equalsIgnoreCase("aji") &&
-//                        txtpassword.getText().toString().equalsIgnoreCase("aji")) {
-//                    editor = pref.edit();
-//                    editor.putString("user", txtusername.getText().toString());
-//                    editor.commit();
-//                    Intent in = new Intent(getApplicationContext(), MainActivity.class);
-//                    startActivity(in);
-//                    finish();
-//                }
                 final String username = txtusername.getText().toString().trim();
                 final String password = txtpassword.getText().toString().trim();
                 if(username.isEmpty()|| password.isEmpty()){
@@ -97,21 +89,26 @@ public class LoginActivity extends AppCompatActivity {
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                            boolean success = response.body().getSuccess();
                             if(response.isSuccessful()){
-                                editor = pref.edit();
-                                editor.putInt("userid", response.body().getUserId());
-                                editor.apply();
-                                Log.d("iduser", "onResponse: "+response.body().getUserId());
-                                Intent in = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(in);
-                                finish();
+                                if(success) {
+                                    editor = pref.edit();
+                                    editor.putInt("userid", response.body().getUserId());
+                                    editor.apply();
+                                    Log.d("iduser", "onResponse: " + response.body().getUserId());
+                                    Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(in);
+                                    finish();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            Log.e("Tag", "onResponse: " + response.code() );
                         }
 
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
                             t.printStackTrace();
+                            Toast.makeText(LoginActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -131,22 +128,39 @@ public class LoginActivity extends AppCompatActivity {
                         String userDetil = response.getRawResponse();
                         try {
                             JSONObject jsonObject = new JSONObject(userDetil);
-                            String userId = jsonObject.getString("id");
+                            String fbId = jsonObject.getString("id");
                             String realName = jsonObject.optString("name", "");
-                            String username = jsonObject.optString("first_name", "") + jsonObject.optString("last_name", "") + jsonObject.getString("id");
+                            //String username = jsonObject.optString("first_name", "") + jsonObject.optString("last_name", "") + jsonObject.getString("id");
                             String email = jsonObject.optString("email", "");
-                            String avatar = "https://graph.facebook.com/" + userId + "/picture?type=large";
-                            editor = pref.edit();
-                            //editor.putInt("userid", userId);
-                            editor.putString("name", realName);
-                            editor.putString("username", username);
-                            editor.putString("email", email);
-                            editor.putString("avatar", avatar);
-                            editor.commit();
-                            Intent in = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(in);
-                            finish();
-                            Toast.makeText(LoginActivity.this, email, Toast.LENGTH_SHORT).show();
+                            String avatar = "https://graph.facebook.com/" + fbId + "/picture?type=large";
+
+                            BookingService service = BookingClient.getRetrofit().create(BookingService.class);
+                            Call<LoginResponse> call = service.loginMedsos(realName, email, "facebook", avatar);
+                            call.enqueue(new Callback<LoginResponse>() {
+                                @Override
+                                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                                    boolean success = response.body().getSuccess();
+                                    int userId = response.body().getUserId();
+                                    if(response.isSuccessful()){
+                                        if(success){
+                                            editor = pref.edit();
+                                            editor.putInt("userid", userId);
+                                            editor.apply();
+
+                                            Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                                            startActivity(in);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                                    Toast.makeText(LoginActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         } catch (JSONException ignored) {
                         }
                     }
@@ -177,7 +191,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+    private void  handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String realName = account.getDisplayName();
@@ -190,20 +204,37 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 avatar = null;
             }
+            BookingService service = BookingClient.getRetrofit().create(BookingService.class);
+            Call<LoginResponse> call = service.loginMedsos(realName, email, "gmail", avatar);
+            call.enqueue(new Callback<LoginResponse>() {
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                    boolean success = response.body().getSuccess();
+                    int userId = response.body().getUserId();
+                    if(response.isSuccessful()){
+                        if(success){
+                            editor = pref.edit();
+                            editor.putInt("userid", userId);
+                            editor.apply();
 
-            //intent
-            Toast.makeText(getApplicationContext(), realName + " , " + username, Toast.LENGTH_LONG).show();
-            editor = pref.edit();
-            editor.putString("user", userId);
-            editor.putString("name", realName);
-            editor.putString("username", username);
-            editor.putString("email", email);
-            editor.putString("avatar", avatar);
-            editor.commit();
-            Intent in = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(in);
-            finish();
+                            Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(in);
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    t.printStackTrace();
+                    Toast.makeText(LoginActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
+                }
+            });
+            Log.e("TAG", "handleSignInResult: ");
         } catch (ApiException ignored) {
+            ignored.printStackTrace();
         }
     }
     /*

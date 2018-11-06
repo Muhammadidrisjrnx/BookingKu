@@ -12,12 +12,11 @@ public class LoginResponse {
     @Expose
     private Integer userId;
 
-    public String getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(String success) {
-        this.success = success;
+    public Boolean getSuccess() {
+        if(success.equals("true")){
+            return true;
+        } else
+            return false;
     }
 
     public Integer getUserId() {

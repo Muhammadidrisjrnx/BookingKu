@@ -27,4 +27,13 @@ public interface BookingService {
     Call<Profile> userprofile(
             @Field("id") int id
     );
+
+    @POST("api/user/medsos")
+    @FormUrlEncoded
+    Call<LoginResponse> loginMedsos(
+            @Field("name") String name,
+            @Field("email") String email,
+            @Field("provider") String provider,
+            @Field("avatar") String avatar
+    );
 }
