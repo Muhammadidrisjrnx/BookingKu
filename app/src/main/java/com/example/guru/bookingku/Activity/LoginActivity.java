@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.guru.bookingku.Activity.Main.MainActivity;
+import com.example.guru.bookingku.Model.LoginResponse;
 import com.example.guru.bookingku.Network.BookingClient;
 import com.example.guru.bookingku.Network.BookingService;
 import com.example.guru.bookingku.R;
@@ -91,22 +93,24 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "please fill my heart first to send a request :(", Toast.LENGTH_SHORT).show();
                 } else {
                     BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
-                    Call<Void> call = bookingService.login(username, password);
-                    call.enqueue(new Callback<Void>() {
+                    Call<LoginResponse> call = bookingService.login(username, password);
+                    call.enqueue(new Callback<LoginResponse>() {
                         @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
+                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                             if(response.isSuccessful()){
                                 editor = pref.edit();
-                                editor.putString("user", username);
+                                editor.putInt("userid", response.body().getUserId());
                                 editor.apply();
+                                Log.d("iduser", "onResponse: "+response.body().getUserId());
                                 Intent in = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(in);
                                 finish();
                             }
+                            Log.e("Tag", "onResponse: " + response.code() );
                         }
 
                         @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
+                        public void onFailure(Call<LoginResponse> call, Throwable t) {
                             t.printStackTrace();
                         }
                     });
@@ -133,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                             String email = jsonObject.optString("email", "");
                             String avatar = "https://graph.facebook.com/" + userId + "/picture?type=large";
                             editor = pref.edit();
-                            editor.putString("user", userId);
+                            //editor.putInt("userid", userId);
                             editor.putString("name", realName);
                             editor.putString("username", username);
                             editor.putString("email", email);

@@ -15,7 +15,7 @@ public class ControlClass extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE);
-        if (sharedPreferences.getString("user","").isEmpty()){
+        if (sharedPreferences.getInt("userid",0)== 0){
             Intent in=new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(in);
             finish();

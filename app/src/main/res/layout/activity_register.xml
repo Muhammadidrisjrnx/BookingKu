@@ -54,11 +54,14 @@
 
         <com.google.android.gms.common.SignInButton
             android:layout_margin="10dp"
+            android:visibility="gone"
             android:id="@+id/sign_in_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <com.facebook.login.widget.LoginButton
-            android:id="@+id/facebookSigninBtn"
+                android:visibility="gone"
+
+                android:id="@+id/facebookSigninBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"

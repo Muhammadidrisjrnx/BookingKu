@@ -1,6 +1,4 @@
 package com.example.guru.bookingku.Fragment.Profile;
-
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,12 +13,19 @@ import android.view.View;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.guru.bookingku.Activity.Main.MainActivity;
 import com.example.guru.bookingku.Fragment.Base.BaseFragment;
+import com.example.guru.bookingku.Model.LoginResponse;
+import com.example.guru.bookingku.Model.Profile;
+import com.example.guru.bookingku.Network.BookingClient;
+import com.example.guru.bookingku.Network.BookingService;
 import com.example.guru.bookingku.R;
 import com.example.guru.bookingku.Util.ControlClass;
 import com.facebook.login.LoginManager;
 import de.hdodenhof.circleimageview.CircleImageView;
-
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,11 +47,27 @@ public class ProfileFragment extends BaseFragment {
         profileimg=view.findViewById(R.id.profileimg);
         profileName=view.findViewById(R.id.profileName);
         tvlogout=view.findViewById(R.id.tvlogout);
-
-
         profileUsername=view.findViewById(R.id.profileUsername);
-        profileName.setText(sharedPreferences.getString("name",""));
-        profileUsername.setText(sharedPreferences.getString("email",""));
+
+        //
+        BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
+        Call<Profile> call = bookingService.userprofile(sharedPreferences.getInt("userid",0));
+        call.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                profileName.setText(response.body().getEmail());
+                profileUsername.setText(response.body().getName());
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+        //
+
+        //profileName.setText(sharedPreferences.getString("name",""));
+        //profileUsername.setText(sharedPreferences.getString("email",""));
         tvlogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,12 +96,12 @@ public class ProfileFragment extends BaseFragment {
             }
         });
 
-        Glide.with(view.getContext())
-                .load(sharedPreferences.getString("avatar",""))
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .dontAnimate()
-                .into(profileimg);
+//        Glide.with(view.getContext())
+//                .load(sharedPreferences.getString("avatar",""))
+//                .centerCrop()
+//                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                .dontAnimate()
+//                .into(profileimg);
         Log.e("Fragment", "onViewCreated: profile" );
     }
 }
