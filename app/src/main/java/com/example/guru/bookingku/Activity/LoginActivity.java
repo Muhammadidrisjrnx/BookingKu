@@ -32,7 +32,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import javax.security.auth.login.LoginException;
 import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
@@ -103,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
                                 }
                             }
+                            Log.e("Tag", "onResponse: " + response.code() );
                         }
 
                         @Override
@@ -134,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                             String email = jsonObject.optString("email", "");
                             String avatar = "https://graph.facebook.com/" + fbId + "/picture?type=large";
 
+
                             BookingService service = BookingClient.getRetrofit().create(BookingService.class);
                             Call<LoginResponse> call = service.loginMedsos(realName, email, "facebook", avatar);
                             call.enqueue(new Callback<LoginResponse>() {
@@ -161,6 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
                                 }
                             });
+
                         } catch (JSONException ignored) {
                         }
                     }
@@ -191,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void  handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String realName = account.getDisplayName();
@@ -204,6 +206,8 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 avatar = null;
             }
+
+            //intent
             BookingService service = BookingClient.getRetrofit().create(BookingService.class);
             Call<LoginResponse> call = service.loginMedsos(realName, email, "gmail", avatar);
             call.enqueue(new Callback<LoginResponse>() {
@@ -232,7 +236,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
                 }
             });
-            Log.e("TAG", "handleSignInResult: ");
         } catch (ApiException ignored) {
             ignored.printStackTrace();
         }

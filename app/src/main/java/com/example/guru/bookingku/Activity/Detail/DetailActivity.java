@@ -10,24 +10,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
 import com.example.guru.bookingku.Activity.Booking.BookingActivity;
 import com.example.guru.bookingku.Model.Item;
 import com.example.guru.bookingku.R;
 
-public class DetailActivity extends AppCompatActivity implements DetailView, View.OnClickListener {
+public class DetailActivity extends AppCompatActivity {
 
-    @BindView(R.id.addCartBtn)
-    Button addCartBtn;
     @BindView(R.id.iv_image)
     ImageView ivImage;
-    @BindView(R.id.tv_item_name)
-    TextView tvItemName;
-    @BindView(R.id.tv_item_desc)
-    TextView tvItemDesc;
     @BindView(R.id.bookNowBtn)
     Button bookNowBtn;
 
-    final DetailPresenter presenter = new DetailPresenter();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,47 +32,17 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             Item item = extras.getParcelable("KEY_DETAIL");
-            presenter.setItem(item);
+
         }
-        addCartBtn.setOnClickListener(this);
-        bookNowBtn.setOnClickListener(this);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.onAttach(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        presenter.onDetach();
-    }
-
-    @Override
-    public void showDetailItem(Item item) {
-        tvItemName.setText(item.getName());
-        tvItemDesc.setText(item.getDesc());
-    }
-
-    @Override
-    public void startBookingActivity(Item item) {
-        Intent intent = new Intent(this, BookingActivity.class);
-        intent.putExtra("KEY_DETAIL", item);
-        startActivity(intent);
-    }
-
-    @Override
-    public void showError(String error) {
-        Toast.makeText(this, "Item: " + error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == addCartBtn)
-            presenter.onAddCartClicked();
-        if (v == bookNowBtn)
-            Toast.makeText(this, "Booked", Toast.LENGTH_SHORT).show(); //presenter.onBookNowClicked
+        Glide.with(getApplicationContext())
+                .load("http://www.susannahnicholas.co.uk/image/data/AROMATHERAPY-FACIAL-sn.jpg")
+                .into(ivImage);
+        bookNowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),BookingActivity.class));
+            }
+        });
     }
 }
