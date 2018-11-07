@@ -8,14 +8,21 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import com.example.guru.bookingku.Fragment.Base.BaseFragment;
+import com.example.guru.bookingku.Model.Profile;
+import com.example.guru.bookingku.Network.BookingClient;
+import com.example.guru.bookingku.Network.BookingService;
 import com.example.guru.bookingku.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends BaseFragment {
-    public ArrayList<data_item_spa> arrayList;
-    public data_item_spa data_item;
+    public List<data_item_spa> arrayList = new ArrayList<>();
     private RecyclerView recyclerView;
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_home;
@@ -26,27 +33,28 @@ public class HomeFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         Log.e("Fragment", "onViewCreated: Home");
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_view_list);
-        arrayList = new ArrayList<data_item_spa>();
-        load_data();
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
-        adapter_list_item_spa adapter = new adapter_list_item_spa(view.getContext(), arrayList);
-        recyclerView.setAdapter(adapter);
+        load_data();
     }
+
     private void load_data() {
-        data_item = new data_item_spa();
-        data_item.setId_item_product("aromaterapi_id");
-        data_item.setName_item_product("Aromaterapi");
-        data_item.setImage_item_product("https://nirvanabeauty.com.au/wp-content/uploads/Facial-image-1.jpg");
-        data_item.setCost_item_product("2000");
-        data_item.setDescription_item_product("DATA DESKRIPSI 1");
-        arrayList.add(data_item);
-        data_item = new data_item_spa();
-        data_item.setId_item_product("lilin_pemanas_tungku_id");
-        data_item.setName_item_product("Lilin Pemanas Tungku");
-        data_item.setImage_item_product("https://img.grouponcdn.com/deal/3dqUDhfpWi7nkqpuZdE9w5abuf8P/3d-593x355/v1/c700x420.jpg");
-        data_item.setCost_item_product("3000");
-        data_item.setDescription_item_product("DATA DESKRIPSI 2");
-        arrayList.add(data_item);
+        arrayList = new ArrayList<>();
+        BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
+        Call<List<data_item_spa>>call = bookingService.dataProduct();
+        call.enqueue(new Callback<List<data_item_spa>>() {
+            @Override
+            public void onResponse(Call<List<data_item_spa>> call, Response<List<data_item_spa>> response) {
+                arrayList = response.body();
+                adapter_list_item_spa adapter = new adapter_list_item_spa(getActivity(), arrayList);
+                recyclerView.setAdapter(adapter);
+                Log.e("TAG", "onResponse: "+response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<data_item_spa>> call, Throwable t) {
+                Log.e("TAG", "onFailure: "+t.getMessage() );
+            }
+        });
+
     }
 }

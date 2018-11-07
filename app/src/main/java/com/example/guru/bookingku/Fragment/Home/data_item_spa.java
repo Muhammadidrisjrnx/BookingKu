@@ -1,63 +1,151 @@
 package com.example.guru.bookingku.Fragment.Home;
 
-public class data_item_spa {
-    //nama,gambar,harga
+import android.os.Parcel;
+import android.os.Parcelable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    private String name_item_product;
-    private String image_item_product;
-    private String id_item_product;
-    private String cost_item_product;
-    private String description_item_product;
+public class data_item_spa implements Parcelable {
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("image")
+    @Expose
+    private String image;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("price")
+    @Expose
+    private Integer price;
+    @SerializedName("available")
+    @Expose
+    private String available;
+    @SerializedName("created_at")
+    @Expose
+    private Object createdAt;
+    @SerializedName("updated_at")
+    @Expose
+    private Object updatedAt;
 
-
-    public String getName_item_product() {
-        return name_item_product;
+    protected data_item_spa(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        name = in.readString();
+        image = in.readString();
+        description = in.readString();
+        if (in.readByte() == 0) {
+            price = null;
+        } else {
+            price = in.readInt();
+        }
+        available = in.readString();
     }
 
-    public void setName_item_product(String name_item_product) {
-        this.name_item_product = name_item_product;
+    public static final Creator<data_item_spa> CREATOR = new Creator<data_item_spa>() {
+        @Override
+        public data_item_spa createFromParcel(Parcel in) {
+            return new data_item_spa(in);
+        }
+
+        @Override
+        public data_item_spa[] newArray(int size) {
+            return new data_item_spa[size];
+        }
+    };
+
+    public Integer getId() {
+        return id;
     }
 
-    public String getImage_item_product() {
-        return image_item_product;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setImage_item_product(String image_item_product) {
-        this.image_item_product = image_item_product;
+    public String getName() {
+        return name;
     }
 
-//    public data_item_spa(String id_item_product, String name_item_product, String image_item_product) {
-//        this.id_item_product = id_item_product;
-//        this.name_item_product = name_item_product;
-//        this.image_item_product = image_item_product;
-//    }
-//
-//    public data_item_spa() {
-//
-//    }
-
-
-    public String getId_item_product() {
-        return id_item_product;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setId_item_product(String id_item_product) {
-        this.id_item_product = id_item_product;
+    public String getImage() {
+        return image;
     }
 
-    public String getCost_item_product() {
-        return cost_item_product;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public void setCost_item_product(String cost_item_product) {
-        this.cost_item_product = cost_item_product;
+    public String getDescription() {
+        return description;
     }
 
-    public String getDescription_item_product() {
-        return description_item_product;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setDescription_item_product(String description_item_product) {
-        this.description_item_product = description_item_product;
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public String getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(String available) {
+        this.available = available;
+    }
+
+    public Object getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Object createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Object getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Object updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(id);
+        }
+        parcel.writeString(name);
+        parcel.writeString(image);
+        parcel.writeString(description);
+        if (price == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(price);
+        }
+        parcel.writeString(available);
     }
 }

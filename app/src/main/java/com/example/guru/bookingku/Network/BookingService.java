@@ -1,11 +1,12 @@
 package com.example.guru.bookingku.Network;
 
+import com.example.guru.bookingku.Fragment.Home.data_item_spa;
 import com.example.guru.bookingku.Model.LoginResponse;
 import com.example.guru.bookingku.Model.Profile;
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
+import retrofit2.http.*;
+
+import java.util.List;
 
 public interface BookingService {
     @POST("api/user/login")
@@ -14,6 +15,7 @@ public interface BookingService {
             @Field("email") String email,
             @Field("password") String password
     );
+
     @POST("api/user/signup")
     @FormUrlEncoded
     Call<Void> signup(
@@ -37,4 +39,7 @@ public interface BookingService {
             @Field("provider") String provider,
             @Field("avatar") String avatar
     );
+
+    @GET("api/product")
+    Call<List<data_item_spa>> dataProduct();
 }
