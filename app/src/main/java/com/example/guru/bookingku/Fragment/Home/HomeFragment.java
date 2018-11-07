@@ -47,7 +47,7 @@ public class HomeFragment extends BaseFragment {
                 arrayList = response.body();
                 adapter_list_item_spa adapter = new adapter_list_item_spa(getActivity(), arrayList);
                 recyclerView.setAdapter(adapter);
-                Log.e("TAG", "onResponse: "+response.body());
+                Log.e("TAG", "onResponse: "+arrayList);
             }
 
             @Override
