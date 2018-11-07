@@ -1,180 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:context=".Activity.Detail.DetailActivity" android:orientation="vertical">
-
-    <LinearLayout
-            android:id="@+id/linear_layout"
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Activity.Detail.DetailActivity">
+    <FrameLayout
+            android:id="@+id/relative_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-        <ImageView
-                android:id="@+id/imageview_product"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="@color/grey"
-                android:src="@color/black"
-                android:scaleType="fitXY"/>
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bookNowBtn">
         <ScrollView
                 android:id="@+id/scrolldown"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fillViewport="true">
+                android:layout_height="wrap_content">
+
             <LinearLayout
+                    android:id="@+id/linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                <android.support.v7.widget.CardView
-                        android:layout_margin="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:cardCornerRadius="0dp"
-                        app:cardElevation="2dp"
-                        app:cardUseCompatPadding="true">
 
-                    <LinearLayout
+                <ImageView
+                        android:id="@+id/imageview_product"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:background="@color/grey"
+                        android:src="@color/black"
+                        android:scaleType="fitXY"/>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    <android.support.v7.widget.CardView
+                            android:layout_margin="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:translationY="0dp">
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="2dp"
+                            app:cardUseCompatPadding="true">
 
-                        <TextView
-                                android:id="@+id/name_product_text"
-                                style="@style/TextAppearance.AppCompat.Small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_margin="10dp"
-                                android:text="Name"
-                                android:textColor="#FF0000"
-                                android:textStyle="bold"/>
-
-                        <TextView
-                                android:id="@+id/name_product"
-                                style="@style/TextAppearance.AppCompat.Small"
+                        <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:padding="10dp"
-                                android:text="name"/>
+                                android:orientation="vertical"
+                                android:translationY="0dp">
 
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                            <TextView
+                                    android:id="@+id/name_product_text"
+                                    style="@style/TextAppearance.AppCompat.Small"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_margin="10dp"
+                                    android:text="Name"
+                                    android:textColor="#FF0000"
+                                    android:textStyle="bold"/>
 
-                <android.support.v7.widget.CardView
-                        android:layout_margin="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:cardCornerRadius="0dp"
-                        app:cardElevation="2dp"
-                        app:cardUseCompatPadding="true">
+                            <TextView
+                                    android:id="@+id/name_product"
+                                    style="@style/TextAppearance.AppCompat.Small"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp"
+                                    android:text="name"/>
 
-                    <LinearLayout
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                            android:layout_margin="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:translationY="0dp">
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="2dp"
+                            app:cardUseCompatPadding="true">
 
-                        <TextView
-                                android:id="@+id/description_product_text"
-                                style="@style/TextAppearance.AppCompat.Small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_margin="10dp"
-                                android:text="Description"
-                                android:textColor="#FF0000"
-                                android:textStyle="bold"/>
-
-                        <TextView
-                                android:id="@+id/description_product"
-                                style="@style/TextAppearance.AppCompat.Small"
+                        <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:padding="10dp"
-                                android:text="description"/>
+                                android:orientation="vertical"
+                                android:translationY="0dp">
 
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-                <android.support.v7.widget.CardView
-                        android:layout_margin="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:cardCornerRadius="0dp"
-                        app:cardElevation="2dp"
-                        app:cardUseCompatPadding="true">
+                            <TextView
+                                    android:id="@+id/description_product_text"
+                                    style="@style/TextAppearance.AppCompat.Small"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_margin="10dp"
+                                    android:text="Description"
+                                    android:textColor="#FF0000"
+                                    android:textStyle="bold"/>
 
-                    <LinearLayout
+                            <TextView
+                                    android:id="@+id/description_product"
+                                    style="@style/TextAppearance.AppCompat.Small"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp"
+                                    android:text="description"/>
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+                    <android.support.v7.widget.CardView
+                            android:layout_margin="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:translationY="0dp">
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="2dp"
+                            app:cardUseCompatPadding="true">
 
-                        <TextView
-                                android:id="@+id/price_product_text"
-                                style="@style/TextAppearance.AppCompat.Small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_margin="10dp"
-                                android:text="Price"
-                                android:textColor="#FF0000"
-                                android:textStyle="bold"/>
-
-                        <TextView
-                                android:id="@+id/price_product"
-                                style="@style/TextAppearance.AppCompat.Small"
+                        <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:padding="10dp"
-                                android:text="price"/>
+                                android:orientation="vertical"
+                                android:translationY="0dp">
 
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-                <android.support.v7.widget.CardView
-                        android:layout_margin="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:cardCornerRadius="0dp"
-                        app:cardElevation="2dp"
-                        app:cardUseCompatPadding="true">
+                            <TextView
+                                    android:id="@+id/price_product_text"
+                                    style="@style/TextAppearance.AppCompat.Small"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_margin="10dp"
+                                    android:text="Price"
+                                    android:textColor="#FF0000"
+                                    android:textStyle="bold"/>
 
-                    <LinearLayout
+                            <TextView
+                                    android:id="@+id/price_product"
+                                    style="@style/TextAppearance.AppCompat.Small"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp"
+                                    android:text="price"/>
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+                    <android.support.v7.widget.CardView
+                            android:layout_margin="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:translationY="0dp">
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="2dp"
+                            app:cardUseCompatPadding="true">
 
-                        <TextView
-                                android:id="@+id/available_product_text"
-                                style="@style/TextAppearance.AppCompat.Small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_margin="10dp"
-                                android:text="Available"
-                                android:textColor="#FF0000"
-                                android:textStyle="bold"/>
-
-                        <TextView
-                                android:id="@+id/available_product"
-                                style="@style/TextAppearance.AppCompat.Small"
+                        <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:padding="10dp"
-                                android:text="available"/>
+                                android:orientation="vertical"
+                                android:translationY="0dp">
 
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                            <TextView
+                                    android:id="@+id/available_product_text"
+                                    style="@style/TextAppearance.AppCompat.Small"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_margin="10dp"
+                                    android:text="Available"
+                                    android:textColor="#FF0000"
+                                    android:textStyle="bold"/>
+
+                            <TextView
+                                    android:id="@+id/available_product"
+                                    style="@style/TextAppearance.AppCompat.Small"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp"
+                                    android:text="available"/>
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+
             </LinearLayout>
         </ScrollView>
-    </LinearLayout>
-    <Button
-            android:id="@+id/bookNowBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="BOOK NOW"/>
-</LinearLayout>
+    </FrameLayout>
+        <Button
+                android:layout_margin="9dp"
+                android:id="@+id/bookNowBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BOOK NOW"
+                android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
