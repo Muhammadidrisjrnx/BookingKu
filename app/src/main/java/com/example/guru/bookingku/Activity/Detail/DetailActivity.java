@@ -23,7 +23,6 @@ public class DetailActivity extends AppCompatActivity {
     Button bookNowBtn;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +33,17 @@ public class DetailActivity extends AppCompatActivity {
             Item item = extras.getParcelable("KEY_DETAIL");
 
         }
-
-        Glide.with(getApplicationContext())
-                .load("http://www.susannahnicholas.co.uk/image/data/AROMATHERAPY-FACIAL-sn.jpg")
-                .into(ivImage);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            Glide.with(getApplicationContext())
+                    .load(bundle.getString("image"))
+                    .into(ivImage);
+        }
         bookNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),BookingActivity.class));
+                startActivity(new Intent(getApplicationContext(), BookingActivity.class));
             }
         });
     }
