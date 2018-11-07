@@ -23,12 +23,10 @@ public class adapter_list_item_spa extends RecyclerView.Adapter<adapter_list_ite
 
     private List<data_item_spa> arrayList;
     private Context context;
-    private OnItemClickListener clickListener;
 
-    public adapter_list_item_spa(Context context, List<data_item_spa> arrayList, OnItemClickListener listener) {
+    public adapter_list_item_spa(Context context, List<data_item_spa> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
-        this.clickListener = listener;
     }
 
     @Override
@@ -49,8 +47,20 @@ public class adapter_list_item_spa extends RecyclerView.Adapter<adapter_list_ite
         holder.cardku.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(),DetailActivity.class));
-
+                final Integer id = data_item.getId();
+                final String name = data_item.getName();
+                final String image = data_item.getImage();
+                final String description = data_item.getDescription();
+                final Integer price = data_item.getPrice();
+                final String available = data_item.getAvailable();
+                Intent intent = new Intent(holder.itemView.getContext(),DetailActivity.class);
+                intent.putExtra("id",id);
+                intent.putExtra("name",name);
+                intent.putExtra("image",image);
+                intent.putExtra("description",description);
+                intent.putExtra("price",price);
+                intent.putExtra("available",available);
+                holder.itemView.getContext().startActivity(intent);
             }
         });
     }
