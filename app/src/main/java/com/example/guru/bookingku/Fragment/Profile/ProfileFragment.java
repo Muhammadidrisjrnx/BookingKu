@@ -36,6 +36,7 @@ public class ProfileFragment extends BaseFragment {
     TextView profileName;
     TextView profileUsername;
     TextView tvlogout;
+    TextView telpuser;
     @Override
     protected int getLayout() {
         return R.layout.fragment_profile;
@@ -47,6 +48,7 @@ public class ProfileFragment extends BaseFragment {
         profileimg=view.findViewById(R.id.profileimg);
         profileName=view.findViewById(R.id.profileName);
         tvlogout=view.findViewById(R.id.tvlogout);
+        telpuser=view.findViewById(R.id.telpuser);
         profileUsername=view.findViewById(R.id.profileUsername);
 
         //
@@ -58,7 +60,6 @@ public class ProfileFragment extends BaseFragment {
                 profileName.setText(response.body().getEmail());
                 profileUsername.setText(response.body().getName());
             }
-
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
                 t.printStackTrace();
