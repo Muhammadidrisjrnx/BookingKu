@@ -3,6 +3,7 @@ package com.example.guru.bookingku.Activity.Detail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import butterknife.BindView;
@@ -43,12 +44,15 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         bundlee = intent.getExtras();
         if (bundlee != null) {
+            Integer id = bundlee.getInt("id");
+            Integer price = bundlee.getInt("price");
+            Log.e("TAG", "onCreate: "+ price);
             Glide.with(getApplicationContext())
                     .load(bundlee.getString("image"))
                     .into(imageview_product);
             name_product.setText(bundlee.getString("name"));
             description_product.setText(bundlee.getString("description"));
-            price_product.setText(bundlee.getString("price"));
+            price_product.setText(String.valueOf(price));
             available_product.setText(bundlee.getString("available"));
         }
         bookNowBtn.setOnClickListener(new View.OnClickListener() {
