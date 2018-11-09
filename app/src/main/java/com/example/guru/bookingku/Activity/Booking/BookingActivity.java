@@ -68,11 +68,16 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
                 call.enqueue(new Callback<BookingResponse>() {
                     @Override
                     public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
-                        boolean success = response.body().getSuccess();
-                        if(success){
-                            Toast.makeText(BookingActivity.this, "success", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(BookingActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                        try {
+                            boolean success = response.body().getSuccess();
+                            if (success) {
+                                Toast.makeText(BookingActivity.this, "success", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(BookingActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        catch (Exception e){
+
                         }
                     }
 
@@ -103,8 +108,13 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
         call.enqueue(new Callback<BookingResponse>() {
             @Override
             public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
-                availableTimeList.addAll(response.body().getAvailableTime());
-                adapter.notifyDataSetChanged();
+                try {
+                    availableTimeList.addAll(response.body().getAvailableTime());
+                    adapter.notifyDataSetChanged();
+                } catch (Exception e){
+
+                }
+
             }
 
             @Override

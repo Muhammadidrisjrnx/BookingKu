@@ -46,12 +46,17 @@ public class HomeFragment extends BaseFragment {
         call.enqueue(new Callback<List<data_item_spa>>() {
             @Override
             public void onResponse(Call<List<data_item_spa>> call, Response<List<data_item_spa>> response) {
-                arrayList = response.body();
-                adapter_list_item_spa adapter = new adapter_list_item_spa(getActivity(), arrayList);
-                recyclerView.setAdapter(adapter);
-                Log.e("TAG", "onResponse: "+arrayList);
-                pg.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
+                try {
+                    arrayList = response.body();
+                    adapter_list_item_spa adapter = new adapter_list_item_spa(getActivity(), arrayList);
+                    recyclerView.setAdapter(adapter);
+                    Log.e("TAG", "onResponse: " + arrayList);
+                    pg.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+                catch (Exception e){
+
+                }
             }
 
             @Override
