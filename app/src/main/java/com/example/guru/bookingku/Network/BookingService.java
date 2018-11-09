@@ -1,5 +1,6 @@
 package com.example.guru.bookingku.Network;
 
+import com.example.guru.bookingku.Activity.History.RegisterRespon;
 import com.example.guru.bookingku.Fragment.Home.data_item_spa;
 import com.example.guru.bookingku.Model.BookingResponse;
 import com.example.guru.bookingku.Model.Profile;
@@ -23,10 +24,11 @@ public interface BookingService {
     );
     @POST("api/user/signup")
     @FormUrlEncoded
-    Call<Void> signup(
+    Call<RegisterRespon> signup(
             @Field("email") String email,
             @Field("name") String name,
-            @Field("password") String password
+            @Field("password") String password,
+            @Field("phone") String phone
     );
 
     @POST("api/user")
@@ -35,7 +37,12 @@ public interface BookingService {
             @Field("id") int id
     );
 
-
+    @POST("api/user/phone")
+    @FormUrlEncoded
+    Call<BookingResponse> insertPhone(
+            @Field("id") int userId,
+            @Field("phone") String phone
+    );
     @POST("api/user/medsos")
     @FormUrlEncoded
     Call<BookingResponse> loginMedsos(

@@ -69,6 +69,9 @@ public class ProfileFragment extends BaseFragment {
                 try {
                     profileName.setText(response.body().getEmail());
                     profileUsername.setText(response.body().getName());
+                    Log.d("hpku", "onResponse: "+response.body().getNoHp());
+                    telpuser.setText(response.body().getNoHp());
+
                 } catch (Exception e){}
             }
             @Override

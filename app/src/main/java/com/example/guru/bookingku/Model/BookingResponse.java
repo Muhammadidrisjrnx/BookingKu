@@ -9,6 +9,9 @@ public class BookingResponse {
     @SerializedName("success")
     @Expose
     private String success;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
     @SerializedName("user_id")
     @Expose
     private Integer userId;
@@ -35,4 +38,10 @@ public class BookingResponse {
         return userId;
     }
 
+    public boolean getPhoneStatus(){
+        if(phone == null)
+            return true;
+        else
+            return false;
+    }
 }

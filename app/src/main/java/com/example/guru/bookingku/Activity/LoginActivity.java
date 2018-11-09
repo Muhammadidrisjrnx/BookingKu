@@ -139,6 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                             String email = jsonObject.optString("email", "");
                             String avatar = "https://graph.facebook.com/" + fbId + "/picture?type=large";
 
+                            //proses input service
 
                             BookingService service = BookingClient.getRetrofit().create(BookingService.class);
                             Call<BookingResponse> call = service.loginMedsos(realName, email, "facebook", avatar);
@@ -147,16 +148,23 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                                     try {
                                         boolean success = response.body().getSuccess();
+                                        boolean isPhoneNull = response.body().getPhoneStatus(); // null = true
                                         int userId = response.body().getUserId();
                                         if (response.isSuccessful()) {
                                             if (success) {
                                                 editor = pref.edit();
                                                 editor.putInt("userid", userId);
                                                 editor.apply();
-
-                                                Intent in = new Intent(getApplicationContext(), MainActivity.class);
-                                                startActivity(in);
-                                                finish();
+                                                Log.e("isPhoneNull", "onResponse: " + isPhoneNull );
+                                                if(!isPhoneNull) {
+                                                    Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                                                    startActivity(in);
+                                                    finish();
+                                                } else {
+                                                    Intent intent = new Intent(LoginActivity.this, InputPhone.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
                                             } else {
                                                 Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
                                             }
@@ -223,25 +231,32 @@ public class LoginActivity extends AppCompatActivity {
             call.enqueue(new Callback<BookingResponse>() {
                 @Override
                 public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
-
                     try {
                         boolean success = response.body().getSuccess();
+                        boolean isPhoneNull = response.body().getPhoneStatus(); // null = true
                         int userId = response.body().getUserId();
                         if (response.isSuccessful()) {
                             if (success) {
                                 editor = pref.edit();
                                 editor.putInt("userid", userId);
                                 editor.apply();
-
-                                Intent in = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(in);
-                                finish();
+                                Log.e("isPhoneNull", "onResponse: " + isPhoneNull );
+                                if(!isPhoneNull) {
+                                    Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(in);
+                                    finish();
+                                } else {
+                                    Intent intent = new Intent(LoginActivity.this, InputPhone.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
                             } else {
                                 Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
                             }
                         }
+                    } catch (Exception e){
+
                     }
-                    catch (Exception e){}
                 }
 
                 @Override

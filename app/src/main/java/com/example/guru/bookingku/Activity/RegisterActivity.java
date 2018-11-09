@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.example.guru.bookingku.Activity.History.RegisterRespon;
 import com.example.guru.bookingku.Activity.Main.MainActivity;
 import com.example.guru.bookingku.Network.BookingClient;
 import com.example.guru.bookingku.Network.BookingService;
@@ -169,12 +170,15 @@ public class RegisterActivity extends AppCompatActivity {
                         inputConfirmPassword.setError("password & confirm passsword don't match");
                     } else {
                         BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
-                        Call<Void> call = bookingService.signup(email, username, password);
-                        call.enqueue(new Callback<Void>() {
+                        Call<RegisterRespon> call = bookingService.signup(email, username, password , telp);
+                        call.enqueue(new Callback<RegisterRespon>() {
                             @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
+                            public void onResponse(Call<RegisterRespon> call, Response<RegisterRespon> response) {
                                 try {
                                     if (response.isSuccessful()) {
+                                        editor = pref.edit();
+                                        editor.putInt("userid", response.body().getUserId());
+                                        editor.apply();
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
@@ -184,7 +188,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
+                            public void onFailure(Call<RegisterRespon> call, Throwable t) {
                                 t.printStackTrace();
                             }
                         });

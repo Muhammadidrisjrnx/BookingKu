@@ -4,12 +4,16 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,9 +44,24 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
     EditText txtdateku;
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         tvSelectedDateAndTime = findViewById(R.id.selectedDateAndTime);
         txtavailable = findViewById(R.id.txtavailable);
@@ -66,42 +85,45 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
         bookNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog dialog = new AlertDialog.Builder(getApplicationContext())
-                        .setTitle("Are you sure want to book this item")
-                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                BookingService service = BookingClient.getRetrofit().create(BookingService.class);
-                                final String date = selectedDate + " " + selectedAvailableTime;
-                                Log.e("date", "onClick: " + date);
-                                Call<BookingResponse> call = service.booking(userid, 1, date);
-                                call.enqueue(new Callback<BookingResponse>() {
-                                    @Override
-                                    public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
-                                        boolean success = response.body().getSuccess();
-                                        if(success){
-                                            Toast.makeText(BookingActivity.this, "success", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(BookingActivity.this, "failed", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<BookingResponse> call, Throwable t) {
-                                        Toast.makeText(BookingActivity.this, "Can't Connect to Server", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }).show();
-
                 //
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(BookingActivity.this, R.style.myDialog));
+                builder.setTitle("Confirm booking ? ");
+                builder.setMessage("test");
+                builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        BookingService service = BookingClient.getRetrofit().create(BookingService.class);
+                        final String date = selectedDate + " " + selectedAvailableTime;
+                        Log.e("date", "onClick: " + date);
+                        Call<BookingResponse> call = service.booking(userid, 1, date);
+                        call.enqueue(new Callback<BookingResponse>() {
+                            @Override
+                            public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
+                                boolean success = response.body().getSuccess();
+                                if(success){
 
+                                    finish();
+                                    Toast.makeText(BookingActivity.this, "success", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(BookingActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<BookingResponse> call, Throwable t) {
+                                Toast.makeText(BookingActivity.this, "Can't Connect to Server", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
     }
@@ -126,8 +148,6 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
             @Override
             public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                 try {
-                    availableTimeList.addAll(response.body().getAvailableTime());
-                    adapter.notifyDataSetChanged();
                     availableTimeList.addAll(response.body().getAvailableTime());
                     adapter.notifyDataSetChanged();
                     txtavailable.setVisibility(View.VISIBLE);
