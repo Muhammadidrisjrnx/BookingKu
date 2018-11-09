@@ -66,8 +66,13 @@ public class ProfileFragment extends BaseFragment {
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
-                profileName.setText(response.body().getEmail());
-                profileUsername.setText(response.body().getName());
+                try {
+                    profileName.setText(response.body().getEmail());
+                    profileUsername.setText(response.body().getName());
+
+                }catch (Exception e){
+                    Log.d("errorku", "onResponse: "+e.toString());
+                }
             }
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {

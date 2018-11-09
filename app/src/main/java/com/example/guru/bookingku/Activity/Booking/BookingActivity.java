@@ -1,8 +1,10 @@
 package com.example.guru.bookingku.Activity.Booking;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,6 +36,8 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
     private Button bookNowBtn;
     private SharedPreferences sharedPreferences;
     private TextView tvSelectedDateAndTime;
+    private TextView txtavailable;
+    EditText txtdateku;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
         setContentView(R.layout.activity_booking);
 
         tvSelectedDateAndTime = findViewById(R.id.selectedDateAndTime);
+        txtavailable = findViewById(R.id.txtavailable);
         bookNowBtn = findViewById(R.id.bookNowBtn);
         recyclerView = (RecyclerView) findViewById(R.id.recycle_view_list_time);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
@@ -50,7 +55,7 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
         recyclerView.setAdapter(adapter);
         sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         final int userid = sharedPreferences.getInt("userid", 0);
-        EditText txtdateku = (EditText) findViewById(R.id.txtdateku);
+        txtdateku = (EditText) findViewById(R.id.txtdateku);
         txtdateku.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,26 +66,42 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
         bookNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BookingService service = BookingClient.getRetrofit().create(BookingService.class);
-                final String date = selectedDate + " " + selectedAvailableTime;
-                Log.e("date", "onClick: " + date);
-                Call<BookingResponse> call = service.booking(userid, 1, date);
-                call.enqueue(new Callback<BookingResponse>() {
-                    @Override
-                    public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
-                        boolean success = response.body().getSuccess();
-                        if(success){
-                            Toast.makeText(BookingActivity.this, "success", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(BookingActivity.this, "failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                AlertDialog dialog = new AlertDialog.Builder(getApplicationContext())
+                        .setTitle("Are you sure want to book this item")
+                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                BookingService service = BookingClient.getRetrofit().create(BookingService.class);
+                                final String date = selectedDate + " " + selectedAvailableTime;
+                                Log.e("date", "onClick: " + date);
+                                Call<BookingResponse> call = service.booking(userid, 1, date);
+                                call.enqueue(new Callback<BookingResponse>() {
+                                    @Override
+                                    public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
+                                        boolean success = response.body().getSuccess();
+                                        if(success){
+                                            Toast.makeText(BookingActivity.this, "success", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(BookingActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
 
-                    @Override
-                    public void onFailure(Call<BookingResponse> call, Throwable t) {
-                        Toast.makeText(BookingActivity.this, "Can't Connect to Server", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                                    @Override
+                                    public void onFailure(Call<BookingResponse> call, Throwable t) {
+                                        Toast.makeText(BookingActivity.this, "Can't Connect to Server", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }).show();
+
+                //
+
             }
         });
     }
@@ -97,6 +118,7 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
         String day_string = String.valueOf(day);
 
         selectedDate = year_string + "-" + month_string + "-" + day_string;
+        txtdateku.setText(selectedDate);
         Toast.makeText(this, "Date Selected is : " + selectedDate, Toast.LENGTH_SHORT).show();
         BookingService service = BookingClient.getRetrofit().create(BookingService.class);
         Call<BookingResponse> call = service.getAvailableTimeList(selectedDate);
@@ -105,6 +127,7 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
             public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                 availableTimeList.addAll(response.body().getAvailableTime());
                 adapter.notifyDataSetChanged();
+                txtavailable.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -123,4 +146,6 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
         Toast.makeText(this, selectedAvailableTime, Toast.LENGTH_SHORT).show();
         tvSelectedDateAndTime.setText(selectedDate + " " + selectedAvailableTime);
     }
+
+
 }

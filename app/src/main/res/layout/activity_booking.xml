@@ -36,15 +36,26 @@
                         android:layout_height="wrap_content"
                         android:editable="false"
                         android:fontFamily="@font/roboto_light"
-                        android:text="Wednesday, 7 Nov 2018"/>
+                        android:text="nothing selected"/>
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
+
+        <TextView
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:id="@+id/txtavailable"
+                android:text="available time"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycle_view_list_time"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         <TextView
+                android:textSize="30dp"
+                android:layout_gravity="center"
             android:id="@+id/selectedDateAndTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

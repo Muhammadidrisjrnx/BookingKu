@@ -181,6 +181,9 @@
                             android:textStyle="bold" />
 
                         <Button
+                                android:textStyle="bold"
+                                android:textColor="@color/colorPrimary"
+                                android:background="@android:color/transparent"
                                 android:id="@+id/btnhistory"
                                 android:text="Booking History"
                                 android:layout_width="match_parent"
