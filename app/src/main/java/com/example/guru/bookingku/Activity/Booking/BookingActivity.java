@@ -125,9 +125,17 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
         call.enqueue(new Callback<BookingResponse>() {
             @Override
             public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
-                availableTimeList.addAll(response.body().getAvailableTime());
-                adapter.notifyDataSetChanged();
-                txtavailable.setVisibility(View.VISIBLE);
+                try {
+                    availableTimeList.addAll(response.body().getAvailableTime());
+                    adapter.notifyDataSetChanged();
+                    availableTimeList.addAll(response.body().getAvailableTime());
+                    adapter.notifyDataSetChanged();
+                    txtavailable.setVisibility(View.VISIBLE);
+                } catch (Exception e){
+
+                }
+
+
             }
 
             @Override
@@ -146,6 +154,4 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
         Toast.makeText(this, selectedAvailableTime, Toast.LENGTH_SHORT).show();
         tvSelectedDateAndTime.setText(selectedDate + " " + selectedAvailableTime);
     }
-
-
 }

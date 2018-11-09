@@ -88,21 +88,26 @@ public class LoginActivity extends AppCompatActivity {
                     call.enqueue(new Callback<BookingResponse>() {
                         @Override
                         public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
-                            boolean success = response.body().getSuccess();
-                            if (response.isSuccessful()) {
-                                if (success) {
-                                    editor = pref.edit();
-                                    editor.putInt("userid", response.body().getUserId());
-                                    editor.apply();
-                                    Log.d("iduser", "onResponse: " + response.body().getUserId());
-                                    Intent in = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(in);
-                                    finish();
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
+                            try {
+                                boolean success = response.body().getSuccess();
+                                if (response.isSuccessful()) {
+                                    if (success) {
+                                        editor = pref.edit();
+                                        editor.putInt("userid", response.body().getUserId());
+                                        editor.apply();
+                                        Log.d("iduser", "onResponse: " + response.body().getUserId());
+                                        Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(in);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
+                                Log.e("Tag", "onResponse: " + response.code());
                             }
-                            Log.e("Tag", "onResponse: " + response.code());
+                            catch (Exception e){
+
+                            }
                         }
 
                         @Override
@@ -140,21 +145,26 @@ public class LoginActivity extends AppCompatActivity {
                             call.enqueue(new Callback<BookingResponse>() {
                                 @Override
                                 public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
-                                    boolean success = response.body().getSuccess();
-                                    int userId = response.body().getUserId();
-                                    if (response.isSuccessful()) {
-                                        if (success) {
-                                            editor = pref.edit();
-                                            editor.putInt("userid", userId);
-                                            editor.apply();
+                                    try {
+                                        boolean success = response.body().getSuccess();
+                                        int userId = response.body().getUserId();
+                                        if (response.isSuccessful()) {
+                                            if (success) {
+                                                editor = pref.edit();
+                                                editor.putInt("userid", userId);
+                                                editor.apply();
 
-                                            Intent in = new Intent(getApplicationContext(), MainActivity.class);
-                                            startActivity(in);
-                                            finish();
-                                        } else {
-                                            Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
+                                                Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                                                startActivity(in);
+                                                finish();
+                                            } else {
+                                                Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
+                                    } catch (Exception e){
+
                                     }
+
                                 }
 
                                 @Override
@@ -213,21 +223,25 @@ public class LoginActivity extends AppCompatActivity {
             call.enqueue(new Callback<BookingResponse>() {
                 @Override
                 public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
-                    boolean success = response.body().getSuccess();
-                    int userId = response.body().getUserId();
-                    if (response.isSuccessful()) {
-                        if (success) {
-                            editor = pref.edit();
-                            editor.putInt("userid", userId);
-                            editor.apply();
 
-                            Intent in = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(in);
-                            finish();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
+                    try {
+                        boolean success = response.body().getSuccess();
+                        int userId = response.body().getUserId();
+                        if (response.isSuccessful()) {
+                            if (success) {
+                                editor = pref.edit();
+                                editor.putInt("userid", userId);
+                                editor.apply();
+
+                                Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(in);
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
+                    catch (Exception e){}
                 }
 
                 @Override

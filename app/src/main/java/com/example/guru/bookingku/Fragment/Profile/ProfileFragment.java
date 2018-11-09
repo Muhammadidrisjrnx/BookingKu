@@ -69,10 +69,7 @@ public class ProfileFragment extends BaseFragment {
                 try {
                     profileName.setText(response.body().getEmail());
                     profileUsername.setText(response.body().getName());
-
-                }catch (Exception e){
-                    Log.d("errorku", "onResponse: "+e.toString());
-                }
+                } catch (Exception e){}
             }
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
