@@ -147,13 +147,12 @@
                             android:textStyle="bold" />
 
                         <TextView
-                                android:textColor="@color/colorPrimary"
-                            android:id="@+id/biodataDescription"
+                            android:textColor="@color/colorPrimary"
+                            android:id="@+id/telpuser"
                             style="@style/TextAppearance.AppCompat.Small"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:text="081225653634" />
+                            android:padding="10dp"/>
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
