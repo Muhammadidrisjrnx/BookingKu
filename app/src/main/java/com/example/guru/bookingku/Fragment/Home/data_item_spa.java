@@ -96,10 +96,6 @@ public class data_item_spa implements Parcelable {
         return price;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
     public String getAvailable() {
         return available;
     }
@@ -112,16 +108,8 @@ public class data_item_spa implements Parcelable {
         return createdAt;
     }
 
-    public void setCreatedAt(Object createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Object getUpdatedAt() {
         return updatedAt;
-    }
-
-    public void setUpdatedAt(Object updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     @Override

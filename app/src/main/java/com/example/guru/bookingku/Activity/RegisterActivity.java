@@ -1,9 +1,18 @@
 package com.example.guru.bookingku.Activity;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,68 +40,68 @@ public class RegisterActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    EditText inputUsername, inputEmail, inputPassword, inputConfirmPassword,noTelp;
+    EditText inputUsername, inputEmail, inputPassword, inputConfirmPassword, noTelp;
     Button registerBtn;
     String Name;
     String phoneNo;
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+
     private void getContactInfo(Intent data) {
 // Check the SDK version and whether the permission is already granted or not.
 
 
+        // TODO Auto-generated method stub
 
-            // TODO Auto-generated method stub
-
-            ContentResolver cr = getContentResolver();
+        ContentResolver cr = getContentResolver();
 
 
-            Cursor cursor = managedQuery(data.getData(), null, null, null, null);
-            while (cursor.moveToNext()) {
-                String contactId = cursor.getString(cursor
-                        .getColumnIndex(ContactsContract.Contacts._ID));
-                Name = cursor
-                        .getString(cursor
-                                .getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
+        Cursor cursor = managedQuery(data.getData(), null, null, null, null);
+        while (cursor.moveToNext()) {
+            String contactId = cursor.getString(cursor
+                    .getColumnIndex(ContactsContract.Contacts._ID));
+            Name = cursor
+                    .getString(cursor
+                            .getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
 
-                String hasPhone = cursor
-                        .getString(cursor
-                                .getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+            String hasPhone = cursor
+                    .getString(cursor
+                            .getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
 
-                Cursor emailCur = cr.query(
-                        ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+            Cursor emailCur = cr.query(
+                    ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                    null,
+                    ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
+                    new String[]{contactId}, null);
+
+
+            emailCur.close();
+
+
+            if (hasPhone.equalsIgnoreCase("1"))
+                hasPhone = "true";
+            else
+                hasPhone = "false";
+
+
+            if (Boolean.parseBoolean(hasPhone)) {
+                Cursor phones = getContentResolver().query(
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                         null,
-                        ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
-                        new String[]{contactId}, null);
-
-
-                emailCur.close();
-
-
-                if (hasPhone.equalsIgnoreCase("1"))
-                    hasPhone = "true";
-                else
-                    hasPhone = "false";
-
-
-                if (Boolean.parseBoolean(hasPhone)) {
-                    Cursor phones = getContentResolver().query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID
-                                    + " = " + contactId, null, null);
-                    while (phones.moveToNext()) {
-                        phoneNo = phones
-                                .getString(phones
-                                        .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    }
-                    phones.close();
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+                                + " = " + contactId, null, null);
+                while (phones.moveToNext()) {
+                    phoneNo = phones
+                            .getString(phones
+                                    .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 }
-
-                Log.d("hasil1", "getContactInfo: " + Name);
-                //
-                Log.d("hasil2", "getContactInfo: " + phoneNo);
-                noTelp.setText(phoneNo);
+                phones.close();
             }
+
+            Log.d("hasil1", "getContactInfo: " + Name);
+            //
+            Log.d("hasil2", "getContactInfo: " + phoneNo);
+            noTelp.setText(phoneNo);
+        }
 
     }
 
@@ -116,8 +125,8 @@ public class RegisterActivity extends AppCompatActivity {
                 final int DRAWABLE_RIGHT = 2;
                 final int DRAWABLE_BOTTOM = 3;
 
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if(event.getRawX() >= (noTelp.getRight() - noTelp.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (noTelp.getRight() - noTelp.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         // your action here
                         //Toast.makeText(getApplicationContext(),"makan",Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(Intent.ACTION_PICK,
@@ -153,11 +162,10 @@ public class RegisterActivity extends AppCompatActivity {
                 final String username = inputUsername.getText().toString().trim();
                 final String password = inputPassword.getText().toString().trim();
                 final String confirmPassword = inputConfirmPassword.getText().toString().trim();
-                if(telp.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()){
+                if (telp.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "please fill my heart first to send a request :(", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    if(!confirmPassword.equals(password)){
+                } else {
+                    if (!confirmPassword.equals(password)) {
                         inputConfirmPassword.setError("password & confirm passsword don't match");
                     } else {
                         BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
@@ -191,7 +199,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (requestCode == 997) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
-        }else if (requestCode == 1){
+        } else if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 getContactInfo(data);
 
