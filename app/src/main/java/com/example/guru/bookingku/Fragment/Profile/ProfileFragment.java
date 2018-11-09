@@ -10,9 +10,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.guru.bookingku.Activity.History.TimeLineActivity;
 import com.example.guru.bookingku.Activity.Main.MainActivity;
 import com.example.guru.bookingku.Fragment.Base.BaseFragment;
 import com.example.guru.bookingku.Model.LoginResponse;
@@ -37,16 +39,24 @@ public class ProfileFragment extends BaseFragment {
     TextView profileUsername;
     TextView tvlogout;
     TextView telpuser;
+    Button btnhistory;
     @Override
     protected int getLayout() {
         return R.layout.fragment_profile;
     }
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sharedPreferences = view.getContext().getSharedPreferences("login", Context.MODE_PRIVATE);
         profileimg=view.findViewById(R.id.profileimg);
         profileName=view.findViewById(R.id.profileName);
+        btnhistory=view.findViewById(R.id.btnhistory);
+        btnhistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(view.getContext(),TimeLineActivity.class));
+            }
+        });
         tvlogout=view.findViewById(R.id.tvlogout);
         telpuser=view.findViewById(R.id.telpuser);
         profileUsername=view.findViewById(R.id.profileUsername);
