@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
@@ -21,8 +19,6 @@ public class DetailActivity extends AppCompatActivity {
     ImageView ivImage;
     @BindView(R.id.bookNowBtn)
     Button bookNowBtn;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +37,7 @@ public class DetailActivity extends AppCompatActivity {
         bookNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),BookingActivity.class));
+                startActivity(new Intent(getApplicationContext(), BookingActivity.class));
             }
         });
     }

@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.guru.bookingku.Activity.Main.MainActivity;
-import com.example.guru.bookingku.Model.LoginResponse;
+import com.example.guru.bookingku.Model.BookingResponse;
 import com.example.guru.bookingku.Network.BookingClient;
 import com.example.guru.bookingku.Network.BookingService;
 import com.example.guru.bookingku.R;
@@ -80,17 +80,17 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String username = txtusername.getText().toString().trim();
                 final String password = txtpassword.getText().toString().trim();
-                if(username.isEmpty()|| password.isEmpty()){
+                if (username.isEmpty() || password.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "please fill my heart first to send a request :(", Toast.LENGTH_SHORT).show();
                 } else {
                     BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
-                    Call<LoginResponse> call = bookingService.login(username, password);
-                    call.enqueue(new Callback<LoginResponse>() {
+                    Call<BookingResponse> call = bookingService.login(username, password);
+                    call.enqueue(new Callback<BookingResponse>() {
                         @Override
-                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                             boolean success = response.body().getSuccess();
-                            if(response.isSuccessful()){
-                                if(success) {
+                            if (response.isSuccessful()) {
+                                if (success) {
                                     editor = pref.edit();
                                     editor.putInt("userid", response.body().getUserId());
                                     editor.apply();
@@ -102,11 +102,11 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                            Log.e("Tag", "onResponse: " + response.code() );
+                            Log.e("Tag", "onResponse: " + response.code());
                         }
 
                         @Override
-                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        public void onFailure(Call<BookingResponse> call, Throwable t) {
                             t.printStackTrace();
                             Toast.makeText(LoginActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
                         }
@@ -136,14 +136,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
                             BookingService service = BookingClient.getRetrofit().create(BookingService.class);
-                            Call<LoginResponse> call = service.loginMedsos(realName, email, "facebook", avatar);
-                            call.enqueue(new Callback<LoginResponse>() {
+                            Call<BookingResponse> call = service.loginMedsos(realName, email, "facebook", avatar);
+                            call.enqueue(new Callback<BookingResponse>() {
                                 @Override
-                                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                                public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                                     boolean success = response.body().getSuccess();
                                     int userId = response.body().getUserId();
-                                    if(response.isSuccessful()){
-                                        if(success){
+                                    if (response.isSuccessful()) {
+                                        if (success) {
                                             editor = pref.edit();
                                             editor.putInt("userid", userId);
                                             editor.apply();
@@ -158,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                                public void onFailure(Call<BookingResponse> call, Throwable t) {
                                     Toast.makeText(LoginActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -209,14 +209,14 @@ public class LoginActivity extends AppCompatActivity {
 
             //intent
             BookingService service = BookingClient.getRetrofit().create(BookingService.class);
-            Call<LoginResponse> call = service.loginMedsos(realName, email, "gmail", avatar);
-            call.enqueue(new Callback<LoginResponse>() {
+            Call<BookingResponse> call = service.loginMedsos(realName, email, "gmail", avatar);
+            call.enqueue(new Callback<BookingResponse>() {
                 @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                     boolean success = response.body().getSuccess();
                     int userId = response.body().getUserId();
-                    if(response.isSuccessful()){
-                        if(success){
+                    if (response.isSuccessful()) {
+                        if (success) {
                             editor = pref.edit();
                             editor.putInt("userid", userId);
                             editor.apply();
@@ -231,7 +231,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                public void onFailure(Call<BookingResponse> call, Throwable t) {
                     t.printStackTrace();
                     Toast.makeText(LoginActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
                 }

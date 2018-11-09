@@ -2,8 +2,8 @@ package com.example.guru.bookingku.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,11 +64,10 @@ public class RegisterActivity extends AppCompatActivity {
                 final String username = inputUsername.getText().toString().trim();
                 final String password = inputPassword.getText().toString().trim();
                 final String confirmPassword = inputConfirmPassword.getText().toString().trim();
-                if(email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()){
+                if (email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "please fill my heart first to send a request :(", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    if(!confirmPassword.equals(password)){
+                } else {
+                    if (!confirmPassword.equals(password)) {
                         inputConfirmPassword.setError("lorem ipsum");
                     } else {
                         BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
@@ -76,9 +75,9 @@ public class RegisterActivity extends AppCompatActivity {
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
-                                if(response.isSuccessful()){
+                                if (response.isSuccessful()) {
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                 }
                             }
@@ -104,6 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
             handleSignInResult(task);
         }
     }
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -112,24 +112,24 @@ public class RegisterActivity extends AppCompatActivity {
             String email = account.getEmail();
             String userId = account.getId();
             String avatar;
-            if(account.getPhotoUrl()!=null) {
+            if (account.getPhotoUrl() != null) {
                 avatar = account.getPhotoUrl().toString();
-            }else{
+            } else {
                 avatar = null;
             }
 
             //intent
-            Toast.makeText(getApplicationContext(),realName+" , "+username,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), realName + " , " + username, Toast.LENGTH_LONG).show();
             editor = pref.edit();
-            editor.putString("user",userId);
-            editor.putString("name",realName);
-            editor.putString("username",username);
-            editor.putString("email",email);
-            editor.putString("avatar",avatar);
+            editor.putString("user", userId);
+            editor.putString("name", realName);
+            editor.putString("username", username);
+            editor.putString("email", email);
+            editor.putString("avatar", avatar);
             editor.commit();
 
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } catch (ApiException ignored) {
         }

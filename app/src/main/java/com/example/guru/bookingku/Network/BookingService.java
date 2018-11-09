@@ -1,6 +1,6 @@
 package com.example.guru.bookingku.Network;
 
-import com.example.guru.bookingku.Model.LoginResponse;
+import com.example.guru.bookingku.Model.BookingResponse;
 import com.example.guru.bookingku.Model.Profile;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 public interface BookingService {
     @POST("api/user/login")
     @FormUrlEncoded
-    Call<LoginResponse> login(
+    Call<BookingResponse> login(
             @Field("email") String email,
             @Field("password") String password
     );
@@ -31,10 +31,24 @@ public interface BookingService {
 
     @POST("api/user/medsos")
     @FormUrlEncoded
-    Call<LoginResponse> loginMedsos(
+    Call<BookingResponse> loginMedsos(
             @Field("name") String name,
             @Field("email") String email,
             @Field("provider") String provider,
             @Field("avatar") String avatar
+    );
+
+    @POST("api/booking")
+    @FormUrlEncoded
+    Call<BookingResponse> booking(
+            @Field("user_id") int userId,
+            @Field("order") int order,
+            @Field("date") String date
+    );
+
+    @POST("api/available-time")
+    @FormUrlEncoded
+    Call<BookingResponse> getAvailableTimeList(
+            @Field("date") String date
     );
 }
