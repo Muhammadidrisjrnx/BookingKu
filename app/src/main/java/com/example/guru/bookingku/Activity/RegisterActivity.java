@@ -58,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         ContentResolver cr = getContentResolver();
 
 
-        Cursor cursor = managedQuery(data.getData(), null, null, null, null);
+        Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
         while (cursor.moveToNext()) {
             String contactId = cursor.getString(cursor
                     .getColumnIndex(ContactsContract.Contacts._ID));
@@ -105,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
             Log.d("hasil2", "getContactInfo: " + phoneNo);
             noTelp.setText(phoneNo);
         }
-
+        cursor.close();
     }
 
     @Override
@@ -162,8 +162,8 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                builder.setTitle("Confirm booking ? ");
-                builder.setMessage("test");
+                builder.setTitle("Confirm register");
+                builder.setMessage("Are you sure want to register?");
                 builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {

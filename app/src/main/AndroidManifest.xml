@@ -19,7 +19,8 @@
         <activity android:name=".Util.ControlClass">
         </activity>
         <activity android:name=".Activity.LoginActivity"/>
-        <activity android:name=".Activity.History.TimeLineActivity">
+        <activity android:name=".Activity.History.TimeLineActivity"
+                  android:launchMode="singleTask">
         </activity>
 
         <meta-data
@@ -62,7 +63,12 @@
             android:name=".Activity.InputPhone">
 
         </activity>
-        <activity android:name=".Activity.Detail.DetailHistory">
+        <activity
+            android:name=".Activity.Detail.DetailHistory"
+            android:parentActivityName=".Activity.History.TimeLineActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activity.History.TimeLineActivity" />
         </activity>
     </application>
 

@@ -1,5 +1,6 @@
 package com.example.guru.bookingku.Activity.History;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,11 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+import com.example.guru.bookingku.Activity.Detail.DetailHistory;
 import com.example.guru.bookingku.Model.BookingResponse;
 import com.example.guru.bookingku.Model.HistoryBooking;
 import com.example.guru.bookingku.Network.BookingClient;
 import com.example.guru.bookingku.Network.BookingService;
 import com.example.guru.bookingku.R;
+import com.example.guru.bookingku.Util.onItemClickListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,7 +23,7 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimeLineActivity extends AppCompatActivity {
+public class TimeLineActivity extends AppCompatActivity implements onItemClickListener {
 
     private RecyclerView mRecyclerView;
     private TimeLineAdapter mTimeLineAdapter;
@@ -38,10 +41,11 @@ public class TimeLineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(getLinearLayoutManager());
         mRecyclerView.setHasFixedSize(true);
-        mTimeLineAdapter = new TimeLineAdapter(mDataList);
+        mTimeLineAdapter = new TimeLineAdapter(mDataList,TimeLineActivity.this);
+        mTimeLineAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mTimeLineAdapter);
 
         int userId = preferences.getInt("userid", 0);
@@ -61,7 +65,7 @@ public class TimeLineActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<BookingResponse> call, Throwable t) {
-
+                Toast.makeText(TimeLineActivity.this, "Can't connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -79,5 +83,19 @@ public class TimeLineActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        HistoryBooking data = mDataList.get(position);
+        String product = data.getOrder();
+        String productImg = data.getOrderImg();
+        String productDesc = data.getOrderDesc();
+        String date = data.getDate();
+        String status = data.getStatus();
+        HistoryBooking historyBooking = new HistoryBooking(product, productImg, productDesc, date, status);
+        Intent intent = new Intent(this, DetailHistory.class);
+        intent.putExtra("history", historyBooking);
+        startActivity(intent);
     }
 }
