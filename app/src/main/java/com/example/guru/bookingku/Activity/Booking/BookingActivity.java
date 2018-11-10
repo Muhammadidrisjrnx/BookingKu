@@ -1,6 +1,7 @@
 package com.example.guru.bookingku.Activity.Booking;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.guru.bookingku.Activity.Main.MainActivity;
 import com.example.guru.bookingku.Model.AvailableTime;
 import com.example.guru.bookingku.Model.BookingResponse;
 import com.example.guru.bookingku.Network.BookingClient;
@@ -85,8 +87,7 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
         bookNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(BookingActivity.this, R.style.myDialog));
+                AlertDialog.Builder builder = new AlertDialog.Builder(BookingActivity.this);
                 builder.setTitle("Confirm booking ? ");
                 builder.setMessage("test");
                 builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
@@ -101,7 +102,7 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
                             public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                                 boolean success = response.body().getSuccess();
                                 if(success){
-
+                                    startActivity(new Intent(BookingActivity.this, MainActivity.class));
                                     finish();
                                     Toast.makeText(BookingActivity.this, "success", Toast.LENGTH_SHORT).show();
                                 } else {
