@@ -1,6 +1,7 @@
 package com.example.guru.bookingku.Activity.Booking;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ public class adapter_time_booking extends RecyclerView.Adapter<adapter_time_book
     Context context;
     List<AvailableTime> availableTimeList;
     adapter_time_booking.onItemClickListener listener;
+    int row_index=-1;
 
     public adapter_time_booking(Context context, List<AvailableTime> availableTimeList) {
         this.context = context;
@@ -36,10 +38,17 @@ public class adapter_time_booking extends RecyclerView.Adapter<adapter_time_book
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Holder holder, int i) {
+    public void onBindViewHolder(@NonNull Holder holder, final int i) {
         final AvailableTime availableTime = availableTimeList.get(i);
         holder.tvTime.setText(availableTime.getTime());
-        //holder.rdoTime.setChecked(false);
+
+        if(row_index==i){
+            holder.tvTime.setBackgroundColor(Color.parseColor("#FFBAB4B4"));
+        }
+        else
+        {
+            holder.tvTime.setBackgroundColor(Color.parseColor("#ffffff"));
+        }
     }
 
     @Override
@@ -58,6 +67,8 @@ public class adapter_time_booking extends RecyclerView.Adapter<adapter_time_book
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(getAdapterPosition());
+                    row_index=getAdapterPosition();
+                    notifyDataSetChanged();
                 }
             });
         }
