@@ -180,6 +180,8 @@
         </ScrollView>
     </FrameLayout>
     <Button
+
+            android:textColor="@color/colorPrimaryDark"
             android:layout_margin="9dp"
             android:id="@+id/bookNowBtn"
             android:layout_width="match_parent"
