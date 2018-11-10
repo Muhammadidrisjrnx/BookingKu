@@ -2,7 +2,9 @@ package com.example.guru.bookingku.Activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -158,42 +160,59 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = inputEmail.getText().toString().trim();
-                final String telp = noTelp.getText().toString().trim();
-                final String username = inputUsername.getText().toString().trim();
-                final String password = inputPassword.getText().toString().trim();
-                final String confirmPassword = inputConfirmPassword.getText().toString().trim();
-                if (telp.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                    Toast.makeText(RegisterActivity.this, "please fill my heart first to send a request :(", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (!confirmPassword.equals(password)) {
-                        inputConfirmPassword.setError("password & confirm passsword don't match");
-                    } else {
-                        BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
-                        Call<RegisterRespon> call = bookingService.signup(email, username, password , telp);
-                        call.enqueue(new Callback<RegisterRespon>() {
-                            @Override
-                            public void onResponse(Call<RegisterRespon> call, Response<RegisterRespon> response) {
-                                try {
-                                    if (response.isSuccessful()) {
-                                        editor = pref.edit();
-                                        editor.putInt("userid", response.body().getUserId());
-                                        editor.apply();
-                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                builder.setTitle("Confirm booking ? ");
+                builder.setMessage("test");
+                builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        final String email = inputEmail.getText().toString().trim();
+                        final String telp = noTelp.getText().toString().trim();
+                        final String username = inputUsername.getText().toString().trim();
+                        final String password = inputPassword.getText().toString().trim();
+                        final String confirmPassword = inputConfirmPassword.getText().toString().trim();
+                        if (telp.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                            Toast.makeText(RegisterActivity.this, "please fill my heart first to send a request :(", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (!confirmPassword.equals(password)) {
+                                inputConfirmPassword.setError("password & confirm passsword don't match");
+                            } else {
+                                BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
+                                Call<RegisterRespon> call = bookingService.signup(email, username, password , telp);
+                                call.enqueue(new Callback<RegisterRespon>() {
+                                    @Override
+                                    public void onResponse(Call<RegisterRespon> call, Response<RegisterRespon> response) {
+                                        try {
+                                            if (response.isSuccessful()) {
+                                                editor = pref.edit();
+                                                editor.putInt("userid", response.body().getUserId());
+                                                editor.apply();
+                                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(intent);
+                                            }
+                                        } catch (Exception e){}
+
                                     }
-                                } catch (Exception e){}
 
+                                    @Override
+                                    public void onFailure(Call<RegisterRespon> call, Throwable t) {
+                                        t.printStackTrace();
+                                    }
+                                });
                             }
-
-                            @Override
-                            public void onFailure(Call<RegisterRespon> call, Throwable t) {
-                                t.printStackTrace();
-                            }
-                        });
+                        }
                     }
-                }
+                });
+                builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
             }
         });

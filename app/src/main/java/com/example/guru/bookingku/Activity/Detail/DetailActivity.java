@@ -33,6 +33,7 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.available_product)
     TextView available_product;
     Bundle bundlee;
+    int idbarang=0;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -57,15 +58,11 @@ public class DetailActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            Item item = extras.getParcelable("KEY_DETAIL");
 
-        }
         Intent intent = getIntent();
         bundlee = intent.getExtras();
         if (bundlee != null) {
-            Integer id = bundlee.getInt("id");
+            idbarang = bundlee.getInt("id");
             Integer price = bundlee.getInt("price");
             Glide.with(getApplicationContext())
                     .load(bundlee.getString("image"))
@@ -78,7 +75,9 @@ public class DetailActivity extends AppCompatActivity {
         bookNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), BookingActivity.class));
+                Intent in =new Intent(getApplicationContext(), BookingActivity.class);
+                in.putExtra("orderid",idbarang);
+                startActivity(in);
             }
         });
     }

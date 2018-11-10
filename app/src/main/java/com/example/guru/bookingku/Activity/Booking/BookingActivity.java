@@ -44,6 +44,8 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
     private TextView tvSelectedDateAndTime;
     private TextView txtavailable;
     EditText txtdateku;
+    Bundle bundlee;
+    int orderid;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -64,6 +66,13 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+        Intent intent = getIntent();
+        bundlee = intent.getExtras();
+        if (bundlee != null) {
+            orderid = bundlee.getInt("orderid");
+        }
 
         tvSelectedDateAndTime = findViewById(R.id.selectedDateAndTime);
         txtavailable = findViewById(R.id.txtavailable);
@@ -96,7 +105,7 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
                         BookingService service = BookingClient.getRetrofit().create(BookingService.class);
                         final String date = selectedDate + " " + selectedAvailableTime;
                         Log.e("date", "onClick: " + date);
-                        Call<BookingResponse> call = service.booking(userid, 1, date);
+                        Call<BookingResponse> call = service.booking(userid, orderid, date);
                         call.enqueue(new Callback<BookingResponse>() {
                             @Override
                             public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
