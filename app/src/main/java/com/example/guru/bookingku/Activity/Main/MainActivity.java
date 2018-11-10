@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
 
     @BindView(R.id.bottomnav) BottomNavigationView bottomNavigationView;
     final MainPresenter presenter = new MainPresenter();
-
+    
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)

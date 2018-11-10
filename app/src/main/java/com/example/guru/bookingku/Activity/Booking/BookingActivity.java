@@ -26,6 +26,7 @@ import com.example.guru.bookingku.Model.BookingResponse;
 import com.example.guru.bookingku.Network.BookingClient;
 import com.example.guru.bookingku.Network.BookingService;
 import com.example.guru.bookingku.R;
+import com.example.guru.bookingku.Util.onItemClickListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +34,7 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookingActivity extends AppCompatActivity implements adapter_time_booking.onItemClickListener{
+public class BookingActivity extends AppCompatActivity implements onItemClickListener {
     List<AvailableTime> availableTimeList = new ArrayList<>();
     private String selectedAvailableTime;
     private String selectedDate;
@@ -98,7 +99,7 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(BookingActivity.this);
                 builder.setTitle("Confirm booking ? ");
-                builder.setMessage("Are you sure want to book");
+                builder.setMessage("Are you sure want to booking this service?");
                 builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -139,6 +140,8 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
     }
 
     public void processDatePickerResult(int year, int month, int day) {
+        adapter.row_index = -1;
+        bookNowBtn.setEnabled(false);
         tvSelectedDateAndTime.setEnabled(false);
         tvSelectedDateAndTime.setText("");
         availableTimeList.clear();
