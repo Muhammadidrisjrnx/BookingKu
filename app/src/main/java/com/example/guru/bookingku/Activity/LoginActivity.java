@@ -139,6 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                             String email = jsonObject.optString("email", "");
                             String avatar = "https://graph.facebook.com/" + fbId + "/picture?type=large";
 
+                            Log.d("gambar", "onCompleted: "+avatar);
                             //proses input service
 
                             BookingService service = BookingClient.getRetrofit().create(BookingService.class);

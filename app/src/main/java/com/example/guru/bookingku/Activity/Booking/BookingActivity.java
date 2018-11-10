@@ -98,7 +98,7 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(BookingActivity.this);
                 builder.setTitle("Confirm booking ? ");
-                builder.setMessage("test");
+                builder.setMessage("Are you sure want to book");
                 builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {

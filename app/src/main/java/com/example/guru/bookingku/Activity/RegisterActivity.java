@@ -162,8 +162,8 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                builder.setTitle("Confirm booking ? ");
-                builder.setMessage("test");
+                builder.setTitle("Confirm Register ? ");
+                builder.setMessage("Data sudah benar ?");
                 builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {

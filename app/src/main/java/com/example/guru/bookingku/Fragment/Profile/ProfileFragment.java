@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.guru.bookingku.Activity.History.TimeLineActivity;
 import com.example.guru.bookingku.Fragment.Base.BaseFragment;
 import com.example.guru.bookingku.Model.Profile;
@@ -71,6 +73,10 @@ public class ProfileFragment extends BaseFragment {
                     profileUsername.setText(response.body().getName());
                     Log.d("hpku", "onResponse: " + response.body().getNoHp());
                     telpuser.setText(response.body().getNoHp());
+
+                            Glide.with(view.getContext())
+                .load(response.body().getAvatar())
+                .into(profileimg);
 
                 } catch (Exception e) {
                 }
