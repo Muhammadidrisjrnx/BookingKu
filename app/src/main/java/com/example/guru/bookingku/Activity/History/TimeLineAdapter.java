@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.guru.bookingku.Activity.History.model.TimeLineModel;
 import com.example.guru.bookingku.Activity.History.utils.DateTimeUtils;
+import com.example.guru.bookingku.Model.HistoryBooking;
 import com.example.guru.bookingku.R;
 import com.github.vipulasri.timelineview.TimelineView;
 
@@ -18,58 +18,45 @@ import java.util.List;
  */
 public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineViewHolder> {
 
-    private List<TimeLineModel> mFeedList;
+    private List<HistoryBooking> historyBookingList;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
-    public TimeLineAdapter(List<TimeLineModel> feedList) {
-        mFeedList = feedList;
+    public TimeLineAdapter(List<HistoryBooking> historyBookingList) {
+        this.historyBookingList = historyBookingList;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return TimelineView.getTimeLineViewType(position,getItemCount());
+        return TimelineView.getTimeLineViewType(position, getItemCount());
     }
 
     @Override
     public TimeLineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         mLayoutInflater = LayoutInflater.from(mContext);
-        View view;
-
-            //view = mLayoutInflater.inflate(mWithLinePadding ? R.layout.item_timeline_line_padding : R.layout.item_timeline, parent, false);
-            view = mLayoutInflater.inflate(R.layout.item_timeline_line_padding, parent, false);
-
-
+        View view = mLayoutInflater.inflate(R.layout.item_timeline_line_padding, parent, false);
         return new TimeLineViewHolder(view, viewType);
     }
 
     @Override
     public void onBindViewHolder(TimeLineViewHolder holder, int position) {
 
-        TimeLineModel timeLineModel = mFeedList.get(position);
+        HistoryBooking historyBooking = historyBookingList.get(position);
+        holder.mTimelineView.setMarker(ContextCompat.getDrawable(mContext, R.drawable.ic_marker), ContextCompat.getColor(mContext, R.color.colorPrimary));
 
-//        if(timeLineModel.getStatus() == OrderStatus.INACTIVE) {
-//            holder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_inactive, android.R.color.darker_gray));
-//        } else if(timeLineModel.getStatus() == OrderStatus.ACTIVE) {
-//            holder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_active, R.color.colorPrimary));
-//        } else {
-            holder.mTimelineView.setMarker(ContextCompat.getDrawable(mContext, R.drawable.ic_marker), ContextCompat.getColor(mContext, R.color.colorPrimary));
-        //}
-
-        if(!timeLineModel.getDate().isEmpty()) {
+        if (!historyBooking.getDate().isEmpty()) {
             holder.mDate.setVisibility(View.VISIBLE);
-            holder.mDate.setText(DateTimeUtils.parseDateTime(timeLineModel.getDate(), "yyyy-MM-dd HH:mm", "hh:mm a, dd-MMM-yyyy"));
-        }
-        else
+            holder.mDate.setText(DateTimeUtils.parseDateTime(historyBooking.getDate(), "yyyy-MM-dd HH:mm", "hh:mm a, dd-MMM-yyyy"));
+        } else
             holder.mDate.setVisibility(View.GONE);
 
-        holder.mMessage.setText(timeLineModel.getMessage());
+        holder.mMessage.setText(historyBooking.getOrder());
     }
 
     @Override
     public int getItemCount() {
-        return (mFeedList!=null? mFeedList.size():0);
+        return (historyBookingList != null ? historyBookingList.size() : 0);
     }
 
 }

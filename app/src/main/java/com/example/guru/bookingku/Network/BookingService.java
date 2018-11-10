@@ -58,4 +58,10 @@ public interface BookingService {
     Call<BookingResponse> getAvailableTimeList(
             @Field("date") String date
     );
+
+    @POST("api/booking/history")
+    @FormUrlEncoded
+    Call<BookingResponse> getHistoryBookingList(
+            @Field("user_id") int userId
+    );
 }

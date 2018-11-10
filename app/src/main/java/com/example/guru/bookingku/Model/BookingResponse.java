@@ -12,9 +12,16 @@ public class BookingResponse {
     @SerializedName("user_id")
     @Expose
     private Integer userId;
-    @SerializedName("result")
+    @SerializedName("result_available_time")
     @Expose
     private List<AvailableTime> availableTimeList = null;
+    @SerializedName("result_booking_history")
+    @Expose
+    private List<HistoryBooking> historyBookingList = null;
+
+    public List<HistoryBooking> getHistoryBookingList() {
+        return historyBookingList;
+    }
 
     public List<AvailableTime> getAvailableTime() {
         return availableTimeList;

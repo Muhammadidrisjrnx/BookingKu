@@ -66,9 +66,9 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
         bookNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog dialog = new AlertDialog.Builder(getApplicationContext())
+                AlertDialog dialog = new AlertDialog.Builder(BookingActivity.this)
                         .setTitle("Are you sure want to book this item")
-                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
