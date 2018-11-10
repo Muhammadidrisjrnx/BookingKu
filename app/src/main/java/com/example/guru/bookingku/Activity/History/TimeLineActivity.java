@@ -30,6 +30,8 @@ public class TimeLineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setTitle("History");
         Toast.makeText(this, "fetching data", Toast.LENGTH_SHORT).show();
         preferences = getSharedPreferences("login", MODE_PRIVATE);
 

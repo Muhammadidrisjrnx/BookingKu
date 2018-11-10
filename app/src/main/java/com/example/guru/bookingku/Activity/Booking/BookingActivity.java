@@ -155,8 +155,6 @@ public class BookingActivity extends AppCompatActivity implements adapter_time_b
                 } catch (Exception e){
 
                 }
-
-
             }
 
             @Override

@@ -63,7 +63,7 @@ public class adapter_list_item_spa extends RecyclerView.Adapter<adapter_list_ite
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return arrayList == null? 0 : arrayList.size();
     }
 
     public class Holder extends RecyclerView.ViewHolder {
