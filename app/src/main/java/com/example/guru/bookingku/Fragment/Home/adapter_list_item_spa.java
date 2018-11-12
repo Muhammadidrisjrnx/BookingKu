@@ -49,7 +49,7 @@ public class adapter_list_item_spa extends RecyclerView.Adapter<adapter_list_ite
                 final String image = data_item.getImage();
                 final String description = data_item.getDescription();
                 final Integer price = data_item.getPrice();
-                final String available = data_item.getAvailable();
+                final boolean available = data_item.getAvailable();
                 Intent intent = new Intent(holder.itemView.getContext(),DetailActivity.class);
                 intent.putExtra("id",id);
                 Log.d("idbarang", "onClick: "+id);
