@@ -2,24 +2,30 @@ package com.example.guru.bookingku.Activity.Booking;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import com.example.guru.bookingku.Model.AvailableTime;
 import com.example.guru.bookingku.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class adapter_time_booking extends RecyclerView.Adapter<adapter_time_booking.Holder> {
 
     Context context;
-    ArrayList<data_time>arrayList;
+    List<AvailableTime> availableTimeList;
+    adapter_time_booking.onItemClickListener listener;
 
-    public adapter_time_booking(Context context,ArrayList<data_time>arrayList) {
+    public adapter_time_booking(Context context, List<AvailableTime> availableTimeList) {
         this.context = context;
-        this.arrayList = arrayList;
+        this.availableTimeList = availableTimeList;
+    }
+
+    public void setOnItemClickListener(onItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -31,21 +37,33 @@ public class adapter_time_booking extends RecyclerView.Adapter<adapter_time_book
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int i) {
-        final data_time data_time= arrayList.get(i);
-        holder.textView.setText(data_time.getTime());
+        final AvailableTime availableTime = availableTimeList.get(i);
+        holder.tvTime.setText(availableTime.getTime());
+        //holder.rdoTime.setChecked(false);
     }
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return availableTimeList.size();
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        private TextView textView;
+        private TextView tvTime;
+        private boolean selected = true;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.text_view_time);
+            tvTime = itemView.findViewById(R.id.rdoTime);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(getAdapterPosition());
+                }
+            });
         }
+    }
+
+    public interface onItemClickListener{
+        void onItemClick(int position);
     }
 }

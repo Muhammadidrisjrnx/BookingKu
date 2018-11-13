@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"/>
 
         <EditText
-                android:inputType="number"
+            android:drawableRight="@drawable/im"
+            android:inputType="number"
             android:layout_margin="10dp"
             android:id="@+id/txtTelp"
             android:hint="telp"
