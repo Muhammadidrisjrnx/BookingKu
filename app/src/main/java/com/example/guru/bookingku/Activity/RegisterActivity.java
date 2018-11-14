@@ -179,7 +179,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 inputConfirmPassword.setError("password & confirm passsword don't match");
                             } else {
                                 BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
-                                Call<RegisterRespon> call = bookingService.signup(email, username, password , telp);
+                                Call<RegisterRespon> call = bookingService.signup(email, username, password, telp);
                                 call.enqueue(new Callback<RegisterRespon>() {
                                     @Override
                                     public void onResponse(Call<RegisterRespon> call, Response<RegisterRespon> response) {
@@ -192,7 +192,8 @@ public class RegisterActivity extends AppCompatActivity {
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 startActivity(intent);
                                             }
-                                        } catch (Exception e){}
+                                        } catch (Exception e) {
+                                        }
 
                                     }
 

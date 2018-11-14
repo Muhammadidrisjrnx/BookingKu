@@ -1,14 +1,19 @@
 package com.example.guru.bookingku.Activity.Main;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import butterknife.ButterKnife;
+import com.example.guru.bookingku.Activity.Notification.NotificationActivity;
 import com.example.guru.bookingku.Fragment.Base.BaseFragment;
 import com.example.guru.bookingku.R;
 
@@ -102,5 +107,21 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
                     .show(fragment)
                     .commit();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_notification){
+            Intent intent = new Intent(this, NotificationActivity.class);
+            startActivity(intent);
+        }
+        return true;
     }
 }

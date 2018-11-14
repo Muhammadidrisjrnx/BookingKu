@@ -19,8 +19,9 @@
         <activity android:name=".Util.ControlClass">
         </activity>
         <activity android:name=".Activity.LoginActivity"/>
-        <activity android:name=".Activity.History.TimeLineActivity"
-                  android:launchMode="singleTask">
+        <activity
+            android:name=".Activity.History.TimeLineActivity"
+            android:launchMode="singleTask">
         </activity>
 
         <meta-data
@@ -59,16 +60,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity.InputPhone">
-
+        <activity android:name=".Activity.InputPhone">
         </activity>
         <activity
             android:name=".Activity.Detail.DetailHistory"
             android:parentActivityName=".Activity.History.TimeLineActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activity.History.TimeLineActivity" />
+                android:value=".Activity.History.TimeLineActivity"/>
+        </activity>
+        <activity android:name=".Activity.Notification.NotificationActivity">
         </activity>
     </application>
 
