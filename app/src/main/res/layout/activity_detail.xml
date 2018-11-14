@@ -145,6 +145,7 @@
                             android:layout_height="wrap_content"
                             app:cardCornerRadius="0dp"
                             app:cardElevation="2dp"
+                            android:visibility="gone"
                             app:cardUseCompatPadding="true">
 
                         <LinearLayout

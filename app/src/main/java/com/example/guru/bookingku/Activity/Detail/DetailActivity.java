@@ -33,6 +33,7 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.available_product)
     TextView available_product;
     Bundle bundlee;
+    private boolean getAvailable;
     int idbarang=0;
 
     @Override
@@ -50,6 +51,8 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        setTitle("Detail produk");
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
@@ -71,6 +74,12 @@ public class DetailActivity extends AppCompatActivity {
             description_product.setText(bundlee.getString("description"));
             price_product.setText(price+"");
             available_product.setText(bundlee.getString("available"));
+            getAvailable = bundlee.getBoolean("available");
+            if(!getAvailable){
+               bookNowBtn.setEnabled(false);
+                bookNowBtn.setText("TIDAK TERSEDIA");
+                bookNowBtn.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+            }
         }
         bookNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override

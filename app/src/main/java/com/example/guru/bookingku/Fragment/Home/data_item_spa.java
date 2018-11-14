@@ -2,6 +2,7 @@ package com.example.guru.bookingku.Fragment.Home;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.example.guru.bookingku.Network.BookingClient;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -77,7 +78,7 @@ public class data_item_spa implements Parcelable {
     }
 
     public String getImage() {
-        return image;
+        return BookingClient.BASE_URL +image;
     }
 
     public void setImage(String image) {
@@ -96,8 +97,13 @@ public class data_item_spa implements Parcelable {
         return price;
     }
 
-    public String getAvailable() {
-        return available;
+    public boolean getAvailable() {
+        if(available.equals("true")){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public void setAvailable(String available) {
