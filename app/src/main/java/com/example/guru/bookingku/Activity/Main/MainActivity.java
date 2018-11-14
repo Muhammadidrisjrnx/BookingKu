@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Home");
         ButterKnife.bind(this);
         presenter.onAttach(this);
         presenter.showHomeFragmentForFirstTime();
@@ -61,9 +62,11 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
         switch (menuItem.getItemId()){
             case R.id.bottomnav_home:
                 presenter.navigateCurrentFragmentToHomeFragment();
+                setTitle("Home");
                 break;
             case R.id.bottomnav_profile:
                 presenter.navigateCurrentFragmentToProfileFragment();
+                setTitle("Profile");
                 break;
         }
         return true;
