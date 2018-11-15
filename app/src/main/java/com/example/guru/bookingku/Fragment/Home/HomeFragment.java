@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import com.example.guru.bookingku.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class HomeFragment extends BaseFragment{
     private SwipeRefreshLayout swipeRefreshLayout;
     private adapter_list_item_spa adapter;
 
+
     @Override
     protected int getLayout() {
         return R.layout.activity_homedashboard;
@@ -39,6 +42,9 @@ public class HomeFragment extends BaseFragment{
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+
         CardView bankcardId=(CardView)view.findViewById(R.id.bankcardId);
         bankcardId.setOnClickListener(new View.OnClickListener() {
             @Override
