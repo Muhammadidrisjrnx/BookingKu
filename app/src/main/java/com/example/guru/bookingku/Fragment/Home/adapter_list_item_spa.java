@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,9 +49,10 @@ public class adapter_list_item_spa extends RecyclerView.Adapter<adapter_list_ite
                 final String image = data_item.getImage();
                 final String description = data_item.getDescription();
                 final Integer price = data_item.getPrice();
-                final String available = data_item.getAvailable();
+                final boolean available = data_item.getAvailable();
                 Intent intent = new Intent(holder.itemView.getContext(),DetailActivity.class);
                 intent.putExtra("id",id);
+                Log.d("idbarang", "onClick: "+id);
                 intent.putExtra("name",name);
                 intent.putExtra("image",image);
                 intent.putExtra("description",description);
@@ -63,7 +65,7 @@ public class adapter_list_item_spa extends RecyclerView.Adapter<adapter_list_ite
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return arrayList == null? 0 : arrayList.size();
     }
 
     public class Holder extends RecyclerView.ViewHolder {

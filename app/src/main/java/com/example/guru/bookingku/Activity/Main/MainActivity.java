@@ -1,14 +1,19 @@
 package com.example.guru.bookingku.Activity.Main;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import butterknife.ButterKnife;
+import com.example.guru.bookingku.Activity.Notification.NotificationActivity;
 import com.example.guru.bookingku.Fragment.Base.BaseFragment;
 import com.example.guru.bookingku.R;
 
@@ -20,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
 
     @BindView(R.id.bottomnav) BottomNavigationView bottomNavigationView;
     final MainPresenter presenter = new MainPresenter();
-
+    
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -30,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
                 .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface arg0, int arg1) {
-                        MainActivity.super.onBackPressed();
+                        finish();
                     }
                 }).create().show();
     }
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Home");
         ButterKnife.bind(this);
         presenter.onAttach(this);
         presenter.showHomeFragmentForFirstTime();
@@ -61,9 +67,16 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
         switch (menuItem.getItemId()){
             case R.id.bottomnav_home:
                 presenter.navigateCurrentFragmentToHomeFragment();
+                setTitle("Home");
                 break;
             case R.id.bottomnav_profile:
                 presenter.navigateCurrentFragmentToProfileFragment();
+                setTitle("Profile");
+                break;
+
+            case R.id.bottomnav_promo:
+                presenter.navigatetopromo();
+                setTitle("Promo");
                 break;
         }
         return true;
@@ -102,5 +115,39 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
                     .show(fragment)
                     .commit();
         }
+    }
+
+    @Override
+    public void attachPromoFragment(BaseFragment currentFragment, BaseFragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(!fragment.isAdded()){
+            transaction
+                    .hide(currentFragment)
+                    .add(R.id.container, fragment)
+                    .show(fragment)
+                    .commit();
+        }
+        else {
+            transaction
+                    .hide(currentFragment)
+                    .show(fragment)
+                    .commit();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_notification){
+            Intent intent = new Intent(this, NotificationActivity.class);
+            startActivity(intent);
+        }
+        return true;
     }
 }

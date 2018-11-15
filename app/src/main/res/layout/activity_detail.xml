@@ -145,6 +145,7 @@
                             android:layout_height="wrap_content"
                             app:cardCornerRadius="0dp"
                             app:cardElevation="2dp"
+                            android:visibility="gone"
                             app:cardUseCompatPadding="true">
 
                         <LinearLayout
@@ -179,12 +180,14 @@
             </LinearLayout>
         </ScrollView>
     </FrameLayout>
-        <Button
-                android:layout_margin="9dp"
-                android:id="@+id/bookNowBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="BOOK NOW"
-                android:layout_alignParentBottom="true"/>
+    <Button
+
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_margin="9dp"
+            android:id="@+id/bookNowBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BOOK NOW"
+            android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

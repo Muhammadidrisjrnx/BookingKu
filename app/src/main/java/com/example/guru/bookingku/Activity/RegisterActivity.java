@@ -2,7 +2,9 @@ package com.example.guru.bookingku.Activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.example.guru.bookingku.Activity.History.RegisterRespon;
 import com.example.guru.bookingku.Activity.Main.MainActivity;
 import com.example.guru.bookingku.Network.BookingClient;
 import com.example.guru.bookingku.Network.BookingService;
@@ -55,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         ContentResolver cr = getContentResolver();
 
 
-        Cursor cursor = managedQuery(data.getData(), null, null, null, null);
+        Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
         while (cursor.moveToNext()) {
             String contactId = cursor.getString(cursor
                     .getColumnIndex(ContactsContract.Contacts._ID));
@@ -102,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
             Log.d("hasil2", "getContactInfo: " + phoneNo);
             noTelp.setText(phoneNo);
         }
-
+        cursor.close();
     }
 
     @Override
@@ -157,36 +160,60 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = inputEmail.getText().toString().trim();
-                final String telp = noTelp.getText().toString().trim();
-                final String username = inputUsername.getText().toString().trim();
-                final String password = inputPassword.getText().toString().trim();
-                final String confirmPassword = inputConfirmPassword.getText().toString().trim();
-                if (telp.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                    Toast.makeText(RegisterActivity.this, "please fill my heart first to send a request :(", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (!confirmPassword.equals(password)) {
-                        inputConfirmPassword.setError("password & confirm passsword don't match");
-                    } else {
-                        BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
-                        Call<Void> call = bookingService.signup(email, username, password);
-                        call.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                if (response.isSuccessful()) {
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                }
-                            }
 
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                t.printStackTrace();
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                builder.setTitle("Confirm register");
+                builder.setMessage("Are you sure want to register?");
+                builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        final String email = inputEmail.getText().toString().trim();
+                        final String telp = noTelp.getText().toString().trim();
+                        final String username = inputUsername.getText().toString().trim();
+                        final String password = inputPassword.getText().toString().trim();
+                        final String confirmPassword = inputConfirmPassword.getText().toString().trim();
+                        if (telp.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                            Toast.makeText(RegisterActivity.this, "please fill my heart first to send a request :(", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (!confirmPassword.equals(password)) {
+                                inputConfirmPassword.setError("password & confirm passsword don't match");
+                            } else {
+                                BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
+                                Call<RegisterRespon> call = bookingService.signup(email, username, password, telp);
+                                call.enqueue(new Callback<RegisterRespon>() {
+                                    @Override
+                                    public void onResponse(Call<RegisterRespon> call, Response<RegisterRespon> response) {
+                                        try {
+                                            if (response.isSuccessful()) {
+                                                editor = pref.edit();
+                                                editor.putInt("userid", response.body().getUserId());
+                                                editor.apply();
+                                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(intent);
+                                            }
+                                        } catch (Exception e) {
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<RegisterRespon> call, Throwable t) {
+                                        t.printStackTrace();
+                                    }
+                                });
                             }
-                        });
+                        }
                     }
-                }
+                });
+                builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
             }
         });

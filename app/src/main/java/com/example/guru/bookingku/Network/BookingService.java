@@ -1,27 +1,34 @@
 package com.example.guru.bookingku.Network;
 
+import com.example.guru.bookingku.Activity.History.RegisterRespon;
 import com.example.guru.bookingku.Fragment.Home.data_item_spa;
-import com.example.guru.bookingku.Model.LoginResponse;
+import com.example.guru.bookingku.Model.BookingResponse;
 import com.example.guru.bookingku.Model.Profile;
 import retrofit2.Call;
-import retrofit2.http.*;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 import java.util.List;
 
 public interface BookingService {
+    @GET("api/product")
+    Call<List<data_item_spa>> dataProduct();
+
     @POST("api/user/login")
     @FormUrlEncoded
-    Call<LoginResponse> login(
+    Call<BookingResponse> login(
             @Field("email") String email,
             @Field("password") String password
     );
-
     @POST("api/user/signup")
     @FormUrlEncoded
-    Call<Void> signup(
+    Call<RegisterRespon> signup(
             @Field("email") String email,
             @Field("name") String name,
-            @Field("password") String password
+            @Field("password") String password,
+            @Field("phone") String phone
     );
 
     @POST("api/user")
@@ -30,16 +37,38 @@ public interface BookingService {
             @Field("id") int id
     );
 
-
+    @POST("api/user/phone")
+    @FormUrlEncoded
+    Call<BookingResponse> insertPhone(
+            @Field("id") int userId,
+            @Field("phone") String phone
+    );
     @POST("api/user/medsos")
     @FormUrlEncoded
-    Call<LoginResponse> loginMedsos(
+    Call<BookingResponse> loginMedsos(
             @Field("name") String name,
             @Field("email") String email,
             @Field("provider") String provider,
             @Field("avatar") String avatar
     );
 
-    @GET("api/product")
-    Call<List<data_item_spa>> dataProduct();
+    @POST("api/booking")
+    @FormUrlEncoded
+    Call<BookingResponse> booking(
+            @Field("user_id") int userId,
+            @Field("order") int order,
+            @Field("date") String date
+    );
+
+    @POST("api/available-time")
+    @FormUrlEncoded
+    Call<BookingResponse> getAvailableTimeList(
+            @Field("date") String date
+    );
+
+    @POST("api/booking/history")
+    @FormUrlEncoded
+    Call<BookingResponse> getHistoryBookingList(
+            @Field("user_id") int userId
+    );
 }
