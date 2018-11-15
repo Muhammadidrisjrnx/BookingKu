@@ -26,6 +26,7 @@ import com.example.guru.bookingku.Model.BookingResponse;
 import com.example.guru.bookingku.Network.BookingClient;
 import com.example.guru.bookingku.Network.BookingService;
 import com.example.guru.bookingku.R;
+import com.example.guru.bookingku.Util.AlarmConfig;
 import com.example.guru.bookingku.Util.onItemClickListener;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingActivity extends AppCompatActivity implements onItemClickListener {
+
+    private static final String NOTIFICATION_TITLE = "Notifikasi Title";
     List<AvailableTime> availableTimeList = new ArrayList<>();
     private String selectedAvailableTime;
     private String selectedDate;
@@ -44,9 +47,11 @@ public class BookingActivity extends AppCompatActivity implements onItemClickLis
     private SharedPreferences sharedPreferences;
     private TextView tvSelectedDateAndTime;
     private TextView txtavailable;
+    private AlarmConfig alarmConfig;
     EditText txtdateku;
     Bundle bundlee;
     int orderid;
+    private int year, month, date, hour, minute;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -68,7 +73,9 @@ public class BookingActivity extends AppCompatActivity implements onItemClickLis
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
+        Bundle extras = getIntent().getExtras();
+        String NOTIFICATION_CONTENT = "layanan " + extras.getString("order_name") + " akan dimulai 2 jam lagi";
+        alarmConfig = new AlarmConfig(this, NOTIFICATION_TITLE, NOTIFICATION_CONTENT);
         Intent intent = getIntent();
         bundlee = intent.getExtras();
         if (bundlee != null) {
@@ -104,14 +111,15 @@ public class BookingActivity extends AppCompatActivity implements onItemClickLis
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         BookingService service = BookingClient.getRetrofit().create(BookingService.class);
-                        final String date = selectedDate + " " + selectedAvailableTime;
-                        Log.e("date", "onClick: " + date);
-                        Call<BookingResponse> call = service.booking(userid, orderid, date);
+                        final String date_string = selectedDate + " " + selectedAvailableTime;
+                        Log.e("date", "onClick: " + date_string);
+                        Call<BookingResponse> call = service.booking(userid, orderid, date_string);
                         call.enqueue(new Callback<BookingResponse>() {
                             @Override
                             public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                                 boolean success = response.body().getSuccess();
                                 if(success){
+                                    alarmConfig.setAlarm(year, month, date, hour, minute);
                                     startActivity(new Intent(BookingActivity.this, MainActivity.class));
                                     finish();
                                     Toast.makeText(BookingActivity.this, "success", Toast.LENGTH_SHORT).show();
@@ -148,6 +156,10 @@ public class BookingActivity extends AppCompatActivity implements onItemClickLis
         adapter.notifyDataSetChanged();
         Toast.makeText(this, "Fetching Available Time", Toast.LENGTH_SHORT).show();
 
+        this.year = year;
+        this.month = month;
+        this.date = day;
+
         String year_string = String.valueOf(year);
         String month_string = String.valueOf(month + 1);
         String day_string = String.valueOf(day);
@@ -181,6 +193,9 @@ public class BookingActivity extends AppCompatActivity implements onItemClickLis
     public void onItemClick(int position) {
         tvSelectedDateAndTime.setEnabled(true);
         selectedAvailableTime = availableTimeList.get(position).getTime();
+        String[] splitTime = selectedAvailableTime.split(":");
+        hour = Integer.parseInt(splitTime[0]);
+        minute = Integer.parseInt(splitTime[1]);
         bookNowBtn.setEnabled(true);
         Toast.makeText(this, selectedAvailableTime, Toast.LENGTH_SHORT).show();
         tvSelectedDateAndTime.setText(selectedDate + " " + selectedAvailableTime);

@@ -86,6 +86,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent in =new Intent(getApplicationContext(), BookingActivity.class);
                 in.putExtra("orderid",idbarang);
+                in.putExtra("order_nama", bundlee.getString("name"));
                 startActivity(in);
             }
         });

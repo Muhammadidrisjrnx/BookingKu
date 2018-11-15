@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import com.example.guru.bookingku.Fragment.Home.adapter_list_item_spa;
 import com.example.guru.bookingku.Fragment.Home.data_item_spa;
 import com.example.guru.bookingku.Network.BookingClient;
@@ -82,14 +83,16 @@ public class Massage extends AppCompatActivity {
                     pg.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
-
+                    pg.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<data_item_spa>> call, Throwable t) {
                 Log.e("TAG", "onFailure: " + t.getMessage());
+                Toast.makeText(Massage.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
+                pg.setVisibility(View.GONE);
             }
         });
     }
