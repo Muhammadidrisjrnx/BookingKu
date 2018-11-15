@@ -2,8 +2,12 @@ package com.example.guru.bookingku.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +36,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
@@ -48,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        cetakhash();
         TextView tvregister = (TextView) findViewById(R.id.txtregister);
         tvregister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,7 +277,7 @@ public class LoginActivity extends AppCompatActivity {
             ignored.printStackTrace();
         }
     }
-    /*
+
     public void cetakhash(){
         PackageInfo info;
         try {
@@ -291,5 +298,5 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("exception", e.toString());
         }
     }
-    */
+
 }
