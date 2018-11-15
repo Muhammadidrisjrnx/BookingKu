@@ -16,10 +16,12 @@ import ss.com.bannerslider.Slider;
 import java.util.ArrayList;
 
 public class PromoFragment extends BaseFragment {
+    ArrayList<Gambar> arrayku;
     public RecyclerView recycler_view_list_film;
     public ArrayList<Film> listFilm = new ArrayList<>();
     public SectionListDataAdapter adapterAllTipe;
     private Slider slider;
+
     @Override
     protected int getLayout() {
         return R.layout.promoninfo;
@@ -29,7 +31,22 @@ public class PromoFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-                Slider.init(new PicassoImageLoadingService(view.getContext()));
+        Slider.init(new PicassoImageLoadingService(view.getContext()));
+
+        arrayku=new ArrayList<Gambar>();
+
+        Gambar g = new Gambar();
+        g.setGambar("https://cf.beautyheaven-site-au.prod.bhn.net.au/sites/default/files/styles/heaven_fullsize/public/gallery/feature/diy-french-pedicure.jpg");
+        arrayku.add(g);
+
+
+        Gambar g2 = new Gambar();
+        g2.setGambar("https://i.pinimg.com/originals/3a/ee/47/3aee47e9855ad047d7a3afbef71e4c86.jpg");
+        arrayku.add(g2);
+
+        Gambar g3 = new Gambar();
+        g3.setGambar("https://i.pinimg.com/564x/9d/df/1e/9ddf1ed43d2b33e69248ea1ecf6c634f.jpg");
+        arrayku.add(g3);
 
         slider = view.findViewById(R.id.banner_slider1);
 
@@ -41,12 +58,12 @@ public class PromoFragment extends BaseFragment {
         slider.postDelayed(new Runnable() {
             @Override
             public void run() {
-                slider.setAdapter(new MainSliderAdapter());
+                slider.setAdapter(new MainSliderAdapter(arrayku));
                 slider.setSelectedSlide(0);
             }
         }, 1500);
 
-        Film f1=new Film();
+        Film f1 = new Film();
         f1.setId(1);
         f1.setTitle("information");
         f1.setRelease_date("makanan");

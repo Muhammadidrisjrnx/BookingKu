@@ -24,6 +24,7 @@
 
 
             <ImageView
+                    android:src="@mipmap/ic_launcher_round"
                 android:id="@+id/ivcover"
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
