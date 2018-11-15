@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
                 .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface arg0, int arg1) {
-                        MainActivity.super.onBackPressed();
+                        finish();
                     }
                 }).create().show();
     }
