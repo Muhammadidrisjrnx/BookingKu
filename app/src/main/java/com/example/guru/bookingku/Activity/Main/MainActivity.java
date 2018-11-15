@@ -68,6 +68,11 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
                 presenter.navigateCurrentFragmentToProfileFragment();
                 setTitle("Profile");
                 break;
+
+            case R.id.bottomnav_promo:
+                presenter.navigatetopromo();
+                setTitle("Promo");
+                break;
         }
         return true;
     }
@@ -91,6 +96,24 @@ public class MainActivity extends AppCompatActivity implements MainView, BottomN
     }
     @Override
     public void attachProfileFragment(BaseFragment currentFragment, BaseFragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(!fragment.isAdded()){
+            transaction
+                    .hide(currentFragment)
+                    .add(R.id.container, fragment)
+                    .show(fragment)
+                    .commit();
+        }
+        else {
+            transaction
+                    .hide(currentFragment)
+                    .show(fragment)
+                    .commit();
+        }
+    }
+
+    @Override
+    public void attachPromoFragment(BaseFragment currentFragment, BaseFragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if(!fragment.isAdded()){
             transaction
