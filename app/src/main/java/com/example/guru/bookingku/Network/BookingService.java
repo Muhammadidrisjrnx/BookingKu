@@ -2,6 +2,7 @@ package com.example.guru.bookingku.Network;
 
 import com.example.guru.bookingku.Activity.History.RegisterRespon;
 import com.example.guru.bookingku.Fragment.Home.data_item_spa;
+import com.example.guru.bookingku.Fragment.PromonInfo.ResonWaktuFalse;
 import com.example.guru.bookingku.Model.BookingResponse;
 import com.example.guru.bookingku.Model.Profile;
 import retrofit2.Call;
@@ -13,8 +14,12 @@ import retrofit2.http.POST;
 import java.util.List;
 
 public interface BookingService {
+
     @GET("api/product")
     Call<List<data_item_spa>> dataProduct();
+
+    @GET("api/busy")
+    Call<List<ResonWaktuFalse>> dataWaktu();
 
     @POST("api/user/login")
     @FormUrlEncoded
