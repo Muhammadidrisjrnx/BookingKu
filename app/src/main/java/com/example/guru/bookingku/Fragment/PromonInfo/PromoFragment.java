@@ -100,6 +100,7 @@ public class PromoFragment extends BaseFragment {
                 try{
                     listFilm.addAll(response.body().getTime());
                     adapterAllTipe.notifyDataSetChanged();
+                    Toast.makeText(getActivity(), "fetch data success", Toast.LENGTH_SHORT).show();
                 }catch (Exception e){
                     Toast.makeText(getActivity(), "Something wrong is happen", Toast.LENGTH_SHORT).show();
                 }
