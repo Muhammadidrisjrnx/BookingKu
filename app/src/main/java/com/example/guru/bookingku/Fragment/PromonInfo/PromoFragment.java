@@ -6,19 +6,29 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+import com.example.guru.bookingku.Activity.Jenisproduk.Massage;
 import com.example.guru.bookingku.Fragment.Base.BaseFragment;
 import com.example.guru.bookingku.Fragment.Home.MainSliderAdapter;
 import com.example.guru.bookingku.Fragment.Home.PicassoImageLoadingService;
+import com.example.guru.bookingku.Fragment.Home.data_item_spa;
+import com.example.guru.bookingku.Network.BookingClient;
+import com.example.guru.bookingku.Network.BookingService;
 import com.example.guru.bookingku.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ss.com.bannerslider.Slider;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PromoFragment extends BaseFragment {
     ArrayList<Gambar> arrayku;
     public RecyclerView recycler_view_list_film;
-    public ArrayList<Film> listFilm = new ArrayList<>();
+    public ArrayList<ResonWaktuFalse> listFilm = new ArrayList<>();
     public SectionListDataAdapter adapterAllTipe;
     private Slider slider;
 
@@ -63,11 +73,24 @@ public class PromoFragment extends BaseFragment {
             }
         }, 1500);
 
-        Film f1 = new Film();
-        f1.setId(1);
-        f1.setTitle("information");
-        f1.setRelease_date("makanan");
-        listFilm.add(f1);
+
+
+        BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
+        Call<List<ResonWaktuFalse>> call = bookingService.dataWaktu();
+        call.enqueue(new Callback<List<ResonWaktuFalse>>() {
+            @Override
+            public void onResponse(Call<List<ResonWaktuFalse>> call, Response<List<ResonWaktuFalse>> response) {
+
+                Log.d("makanan", "onResponse: "+response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResonWaktuFalse>> call, Throwable t) {
+                Log.e("TAG", "onFailure: " + t.getMessage());
+
+
+            }
+        });
 
         recycler_view_list_film = (RecyclerView) view.findViewById(R.id.recycler_view_list_film2);
         recycler_view_list_film.setHasFixedSize(true);

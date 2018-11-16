@@ -24,10 +24,10 @@ import java.util.ArrayList;
 public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListDataAdapter.SingleItemRowHolder> {
 
     private View view;
-    ArrayList<Film> articleFilm;
+    ArrayList<ResonWaktuFalse> articleFilm;
     Context context;
 
-    public SectionListDataAdapter(Context context, ArrayList<Film> articleFilm) {
+    public SectionListDataAdapter(Context context, ArrayList<ResonWaktuFalse> articleFilm) {
         Log.d("di adapter", "SectionListDataAdapter: "+articleFilm.size());
         this.articleFilm=articleFilm;
         this.context=context;
@@ -46,16 +46,7 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
     @Override
     public void onBindViewHolder(@NonNull final SectionListDataAdapter.SingleItemRowHolder holder, final int position) {
 
-
-        final Film singleItem = articleFilm.get(position);
-        holder.tvTitle.setText(singleItem.getTitle());
-        holder.release_date.setText(singleItem.getRelease_date());
-
-
-
-
-
-
+        final ResonWaktuFalse singleItem = articleFilm.get(position);
 
     }
 
