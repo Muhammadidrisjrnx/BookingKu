@@ -86,9 +86,7 @@ public class PromoFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<List<ResonWaktuFalse>> call, Throwable t) {
-                Log.e("TAG", "onFailure: " + t.getMessage());
-
-
+                Log.e("makanan", "onFailure: " + t.getMessage());
             }
         });
 
