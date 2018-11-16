@@ -19,7 +19,7 @@ public interface BookingService {
     Call<List<data_item_spa>> dataProduct();
 
     @GET("api/busy")
-    Call<List<ResonWaktuFalse>> dataWaktu();
+    Call<ResonWaktuFalse> dataWaktu();
 
     @POST("api/user/login")
     @FormUrlEncoded
