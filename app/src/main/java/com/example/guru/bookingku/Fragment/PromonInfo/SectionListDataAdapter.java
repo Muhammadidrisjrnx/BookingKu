@@ -28,8 +28,8 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
     Context context;
 
     public SectionListDataAdapter(Context context, ArrayList<Time> articleFilm) {
-        Log.d("di adapter", "SectionListDataAdapter: "+articleFilm.size());
         this.articleFilm=articleFilm;
+        Log.d("diadapter", "SectionListDataAdapter: "+this.articleFilm.size());
         this.context=context;
     }
 
@@ -47,7 +47,8 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
     public void onBindViewHolder(@NonNull final SectionListDataAdapter.SingleItemRowHolder holder, final int position) {
 
         final Time singleItem = articleFilm.get(position);
-
+        holder.tvTitle.setText(singleItem.getReason());
+        holder.release_date.setText(singleItem.getDate());
     }
 
     @Override

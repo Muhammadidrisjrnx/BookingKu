@@ -45,6 +45,9 @@ public class PromoFragment extends BaseFragment {
 
         arrayku=new ArrayList<Gambar>();
 
+        recycler_view_list_film=(RecyclerView)view.findViewById(R.id.recycler_view_list_film2);
+
+
         Gambar g = new Gambar();
         g.setGambar("https://assets.materialup.com/uploads/dcc07ea4-845a-463b-b5f0-4696574da5ed/preview.jpg");
         arrayku.add(g);
@@ -70,58 +73,27 @@ public class PromoFragment extends BaseFragment {
             }
         }, 1500);
 
-<<<<<<< HEAD
+
 
 
         BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
-        Call<List<ResonWaktuFalse>> call = bookingService.dataWaktu();
-        call.enqueue(new Callback<List<ResonWaktuFalse>>() {
-            @Override
-            public void onResponse(Call<List<ResonWaktuFalse>> call, Response<List<ResonWaktuFalse>> response) {
 
-                Log.d("makanan", "onResponse: "+response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<List<ResonWaktuFalse>> call, Throwable t) {
-                Log.e("makanan", "onFailure: " + t.getMessage());
-            }
-        });
-
-=======
->>>>>>> 0bd31d1b5198faec6580a6e2c17b3d6b8584c9f3
-        recycler_view_list_film = (RecyclerView) view.findViewById(R.id.recycler_view_list_film2);
-        recycler_view_list_film.setHasFixedSize(true);
-        adapterAllTipe = new SectionListDataAdapter(view.getContext(), listFilm);
-        recycler_view_list_film.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
-        recycler_view_list_film.setAdapter(adapterAllTipe);
-        recycler_view_list_film.setNestedScrollingEnabled(false);
-        recycler_view_list_film.setVisibility(View.VISIBLE);
-        BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
-//        Call<List<ResonWaktuFalse>> call = bookingService.dataWaktu();
-//        call.enqueue(new Callback<List<ResonWaktuFalse>>() {
-//            @Override
-//            public void onResponse(Call<List<ResonWaktuFalse>> call, Response<List<ResonWaktuFalse>> response) {
-//
-//                Log.d("makanan", "onResponse: "+response.body().toString());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<ResonWaktuFalse>> call, Throwable t) {
-//                Log.e("TAG", "onFailure: " + t.getMessage());
-//
-//
-//            }
-//        });
         Call<ResonWaktuFalse> call = bookingService.dataWaktu();
         call.enqueue(new Callback<ResonWaktuFalse>() {
             @Override
             public void onResponse(Call<ResonWaktuFalse> call, Response<ResonWaktuFalse> response) {
                 try{
                     listFilm.addAll(response.body().getTime());
-                    adapterAllTipe.notifyDataSetChanged();
-                    Toast.makeText(getActivity(), "fetch data success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "fetch data success "+listFilm.size(), Toast.LENGTH_SHORT).show();
+
+                    recycler_view_list_film.setHasFixedSize(true);
+                    adapterAllTipe = new SectionListDataAdapter(getActivity(), listFilm);
+                    recycler_view_list_film.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_list_film.setAdapter(adapterAllTipe);
+                    recycler_view_list_film.setNestedScrollingEnabled(false);
+                    recycler_view_list_film.setVisibility(View.VISIBLE);
                 }catch (Exception e){
+                    Log.d("makan", "onResponse: "+e.toString());
                     Toast.makeText(getActivity(), "Something wrong is happen", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -132,5 +104,6 @@ public class PromoFragment extends BaseFragment {
                 Toast.makeText(getActivity(), t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }
