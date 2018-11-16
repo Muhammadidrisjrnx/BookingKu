@@ -47,8 +47,8 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
     public void onBindViewHolder(@NonNull final SectionListDataAdapter.SingleItemRowHolder holder, final int position) {
 
         final Time singleItem = articleFilm.get(position);
-        holder.tvTitle.setText(singleItem.getReason());
-        holder.release_date.setText(singleItem.getDate());
+        holder.tvTitle.setText(singleItem.getDate());
+        holder.release_date.setText(singleItem.getReason());
     }
 
     @Override

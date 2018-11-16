@@ -17,6 +17,7 @@ import com.example.guru.bookingku.Fragment.Home.data_item_spa;
 import com.example.guru.bookingku.Network.BookingClient;
 import com.example.guru.bookingku.Network.BookingService;
 import com.example.guru.bookingku.R;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,7 +32,7 @@ public class PromoFragment extends BaseFragment {
     public ArrayList<Time> listFilm = new ArrayList<>();
     public SectionListDataAdapter adapterAllTipe;
     private Slider slider;
-
+    private ShimmerFrameLayout mShimmerViewContainer;
     @Override
     protected int getLayout() {
         return R.layout.promoninfo;
@@ -42,9 +43,9 @@ public class PromoFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Slider.init(new PicassoImageLoadingService(view.getContext()));
-
+        mShimmerViewContainer = (ShimmerFrameLayout) view.findViewById(R.id.shimmer_view_container);
         arrayku=new ArrayList<Gambar>();
-
+        mShimmerViewContainer.startShimmerAnimation();
         recycler_view_list_film=(RecyclerView)view.findViewById(R.id.recycler_view_list_film2);
 
 
@@ -92,6 +93,8 @@ public class PromoFragment extends BaseFragment {
                     recycler_view_list_film.setAdapter(adapterAllTipe);
                     recycler_view_list_film.setNestedScrollingEnabled(false);
                     recycler_view_list_film.setVisibility(View.VISIBLE);
+                    mShimmerViewContainer.stopShimmerAnimation();
+                    mShimmerViewContainer.setVisibility(View.GONE);
                 }catch (Exception e){
                     Log.d("makan", "onResponse: "+e.toString());
                     Toast.makeText(getActivity(), "Something wrong is happen", Toast.LENGTH_SHORT).show();
