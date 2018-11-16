@@ -1,7 +1,6 @@
 <ScrollView android:layout_height="wrap_content"
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto">
-
+            android:layout_width="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -38,9 +37,23 @@
 
 
             </android.support.v7.widget.CardView>
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_list_film2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+
+
+
+
+    </android.support.v4.widget.NestedScrollView>
 
 
 </ScrollView>

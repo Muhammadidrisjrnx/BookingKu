@@ -16,6 +16,7 @@ import com.example.guru.bookingku.Fragment.Home.data_item_spa;
 import com.example.guru.bookingku.Network.BookingClient;
 import com.example.guru.bookingku.Network.BookingService;
 import com.example.guru.bookingku.R;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,7 +28,7 @@ public class Massage extends AppCompatActivity {
 
     public List<data_item_spa> arrayList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private ProgressBar pg;
+    private ShimmerFrameLayout mShimmerViewContainer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private adapter_list_item_spa adapter;
 
@@ -47,13 +48,14 @@ public class Massage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_home);
         setTitle("Massage");
-
+        mShimmerViewContainer = (ShimmerFrameLayout) findViewById(R.id.shimmer_view_container);
+        mShimmerViewContainer.startShimmerAnimation();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         recyclerView = findViewById(R.id.recycle_view_list);
-        pg = findViewById(R.id.pgku);
+
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -80,10 +82,12 @@ public class Massage extends AppCompatActivity {
                     arrayList.addAll(response.body());
                     adapter.notifyDataSetChanged();
                     Log.e("TAG", "onResponse: " + arrayList);
-                    pg.setVisibility(View.GONE);
+                    mShimmerViewContainer.stopShimmerAnimation();
+                    mShimmerViewContainer.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
+
                 } catch (Exception e) {
-                    pg.setVisibility(View.GONE);
+
                 }
             }
 
@@ -92,7 +96,7 @@ public class Massage extends AppCompatActivity {
                 Log.e("TAG", "onFailure: " + t.getMessage());
                 Toast.makeText(Massage.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
-                pg.setVisibility(View.GONE);
+
             }
         });
     }

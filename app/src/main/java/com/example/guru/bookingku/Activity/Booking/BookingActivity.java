@@ -120,7 +120,9 @@ public class BookingActivity extends AppCompatActivity implements onItemClickLis
                                 boolean success = response.body().getSuccess();
                                 if(success){
                                     alarmConfig.setAlarm(year, month, date, hour, minute);
-                                    startActivity(new Intent(BookingActivity.this, MainActivity.class));
+                                    Intent intent = new Intent(BookingActivity.this, MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
                                     finish();
                                     Toast.makeText(BookingActivity.this, "success", Toast.LENGTH_SHORT).show();
                                 } else {
