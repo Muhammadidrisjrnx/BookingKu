@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 import com.example.guru.bookingku.Activity.Detail.DetailHistory;
 import com.example.guru.bookingku.Model.BookingResponse;
@@ -16,6 +17,7 @@ import com.example.guru.bookingku.Network.BookingClient;
 import com.example.guru.bookingku.Network.BookingService;
 import com.example.guru.bookingku.R;
 import com.example.guru.bookingku.Util.onItemClickListener;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TimeLineActivity extends AppCompatActivity implements onItemClickListener {
-
+    private ShimmerFrameLayout mShimmerViewContainer;
     private RecyclerView mRecyclerView;
     private TimeLineAdapter mTimeLineAdapter;
     private List<HistoryBooking> mDataList = new ArrayList<>();
@@ -37,10 +39,13 @@ public class TimeLineActivity extends AppCompatActivity implements onItemClickLi
         getSupportActionBar().setTitle("History");
         Toast.makeText(this, "fetching data", Toast.LENGTH_SHORT).show();
         preferences = getSharedPreferences("login", MODE_PRIVATE);
-
         setContentView(R.layout.activity_timeline);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mShimmerViewContainer = (ShimmerFrameLayout) findViewById(R.id.shimmer_view_container);
+        mShimmerViewContainer.startShimmerAnimation();
+
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(getLinearLayoutManager());
         mRecyclerView.setHasFixedSize(true);
@@ -58,6 +63,9 @@ public class TimeLineActivity extends AppCompatActivity implements onItemClickLi
                 try {
                     mDataList.addAll(response.body().getHistoryBookingList());
                     mTimeLineAdapter.notifyDataSetChanged();
+
+                    mShimmerViewContainer.stopShimmerAnimation();
+                    mShimmerViewContainer.setVisibility(View.GONE);
                 } catch (Exception e) {
 
                 }
