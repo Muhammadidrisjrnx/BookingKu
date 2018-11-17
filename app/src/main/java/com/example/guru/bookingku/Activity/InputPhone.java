@@ -152,6 +152,7 @@ public class InputPhone extends Activity {
                                 boolean success = response.body().getSuccess();
                                 if(success){
                                     Intent intent = new Intent(InputPhone.this, MainActivity.class);
+                                    finish();
                                     startActivity(intent);
                                 } else {
                                     Toast.makeText(InputPhone.this, "Something wrong is happen", Toast.LENGTH_SHORT).show();

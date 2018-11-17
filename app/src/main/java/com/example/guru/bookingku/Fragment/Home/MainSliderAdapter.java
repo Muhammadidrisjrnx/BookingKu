@@ -28,7 +28,7 @@ public class MainSliderAdapter extends SliderAdapter {
     public void onBindImageSlide(int position, ImageSlideViewHolder viewHolder) {
 
         for (int i = 0; i <arrayku.size() ; i++) {
-            viewHolder.bindImageSlide(arrayku.get(i).getGambar());
+            viewHolder.bindImageSlide(arrayku.get(position).getGambar());
         }
     }
 

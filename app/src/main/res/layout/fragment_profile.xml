@@ -244,14 +244,16 @@
                         <ImageView
                                 android:layout_margin="10dp"
                                 android:layout_width="30dp"
-                                android:src="@mipmap/ic_launcher"
+                                android:src="@drawable/logout"
                                 android:layout_height="30dp"/>
 
                         <TextView
+                                android:textStyle="bold"
                                 android:id="@+id/tvlogout"
                                 android:layout_gravity="center"
                                 android:text="Log out"
-                                android:layout_width="wrap_content"
+                                android:textSize="17sp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
 
                     </LinearLayout>
