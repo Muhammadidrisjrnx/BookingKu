@@ -1,5 +1,6 @@
 package com.example.guru.bookingku.Activity.Jenisproduk;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Massage extends AppCompatActivity {
-
+    String data;
     public List<data_item_spa> arrayList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ShimmerFrameLayout mShimmerViewContainer;
@@ -47,7 +48,13 @@ public class Massage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_home);
-        setTitle("Massage");
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            data = extras.getString("category");
+        }
+
+        setTitle(data);
         mShimmerViewContainer = (ShimmerFrameLayout) findViewById(R.id.shimmer_view_container);
         mShimmerViewContainer.startShimmerAnimation();
         ActionBar actionBar = getSupportActionBar();
@@ -71,17 +78,26 @@ public class Massage extends AppCompatActivity {
 
     private void load_data() {
         BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
-        Call<List<data_item_spa>> call = bookingService.dataProduct();
+        Call<List<data_item_spa>> call=null;
+        if (data.equalsIgnoreCase("massage")){
+            call = bookingService.dataProductmassage();
+        }else if (data.equalsIgnoreCase("hair treadment")){
+            call = bookingService.dataProducthair_treadment();
+        }else if (data.equalsIgnoreCase("facial")){
+            call = bookingService.dataProductfacial();
+        }else if (data.equalsIgnoreCase("kuku")){
+            call = bookingService.dataProductkuku();
+        }
+
         call.enqueue(new Callback<List<data_item_spa>>() {
             @Override
             public void onResponse(Call<List<data_item_spa>> call, Response<List<data_item_spa>> response) {
                 swipeRefreshLayout.setRefreshing(false);
                 try {
                     arrayList.clear();
-                    adapter.notifyDataSetChanged();
                     arrayList.addAll(response.body());
                     adapter.notifyDataSetChanged();
-                    Log.e("TAG", "onResponse: " + arrayList);
+                    Log.e("hasilnya", "onResponse: " + arrayList);
                     mShimmerViewContainer.stopShimmerAnimation();
                     mShimmerViewContainer.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);

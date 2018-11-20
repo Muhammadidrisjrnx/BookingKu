@@ -15,8 +15,17 @@ import java.util.List;
 
 public interface BookingService {
 
-    @GET("api/product")
-    Call<List<data_item_spa>> dataProduct();
+    @GET("api/product/kuku")
+    Call<List<data_item_spa>> dataProductkuku();
+
+    @GET("api/product/facial")
+    Call<List<data_item_spa>> dataProductfacial();
+
+    @GET("api/product/hair_treatment")
+    Call<List<data_item_spa>> dataProducthair_treadment();
+
+    @GET("api/product/massage")
+    Call<List<data_item_spa>> dataProductmassage();
 
     @GET("api/busy")
     Call<ResonWaktuFalse> dataWaktu();

@@ -80,8 +80,6 @@
         <receiver android:name=".Util.AlarmReceiver"/>
 
         <activity android:name=".intro">
-
-
         </activity>
     </application>
 
