@@ -13,8 +13,8 @@ import butterknife.ButterKnife;
 import com.example.guru.bookingku.Activity.History.utils.DateTimeUtils;
 import com.example.guru.bookingku.Model.HistoryBooking;
 import com.example.guru.bookingku.R;
-import com.example.guru.bookingku.Util.onItemClickListener;
 import com.github.vipulasri.timelineview.TimelineView;
+import com.example.guru.bookingku.Util.onItemClickListener;
 
 import java.util.List;
 

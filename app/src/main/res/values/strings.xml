@@ -8,4 +8,15 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hair">Hair</string>
+    <string name="face">Face</string>
+    <string name="massage">Massage</string>
+    <string name="nail">Nail</string>
+    <string name="welcome">Welcome to Spa</string>
+    <string name="description_face">Place Face</string>
+    <string name="description_massage">Place Massage</string>
+    <string name="description_nail">Place Nail</string>
+    <string name="description_hair">Place Hair</string>
+
+    <string name="empty"></string>
 </resources>
