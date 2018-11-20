@@ -32,7 +32,7 @@ public class Massage extends AppCompatActivity {
     private ShimmerFrameLayout mShimmerViewContainer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private adapter_list_item_spa adapter;
-
+    Call<List<data_item_spa>> call;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -70,15 +70,13 @@ public class Massage extends AppCompatActivity {
                 load_data();
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new adapter_list_item_spa(getApplicationContext(), arrayList);
-        recyclerView.setAdapter(adapter);
+
         load_data();
     }
 
     private void load_data() {
         BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
-        Call<List<data_item_spa>> call=null;
+
         if (data.equalsIgnoreCase("massage")){
             call = bookingService.dataProductmassage();
         }else if (data.equalsIgnoreCase("hair treadment")){
@@ -94,9 +92,10 @@ public class Massage extends AppCompatActivity {
             public void onResponse(Call<List<data_item_spa>> call, Response<List<data_item_spa>> response) {
                 swipeRefreshLayout.setRefreshing(false);
                 try {
-                    arrayList.clear();
                     arrayList.addAll(response.body());
-                    adapter.notifyDataSetChanged();
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    adapter = new adapter_list_item_spa(getApplicationContext(), arrayList);
+                    recyclerView.setAdapter(adapter);
                     Log.e("hasilnya", "onResponse: " + arrayList);
                     mShimmerViewContainer.stopShimmerAnimation();
                     mShimmerViewContainer.setVisibility(View.GONE);
@@ -111,7 +110,7 @@ public class Massage extends AppCompatActivity {
             public void onFailure(Call<List<data_item_spa>> call, Throwable t) {
                 Log.e("TAG", "onFailure: " + t.getMessage());
                 Toast.makeText(Massage.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                swipeRefreshLayout.setRefreshing(false);
+
 
             }
         });
