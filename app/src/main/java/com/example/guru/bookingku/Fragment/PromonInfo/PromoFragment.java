@@ -104,7 +104,6 @@ public class PromoFragment extends BaseFragment {
             @Override
             public void onFailure(Call<ResonWaktuFalse> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(getActivity(), t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
 
