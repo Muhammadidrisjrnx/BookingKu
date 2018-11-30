@@ -1,6 +1,9 @@
 package com.example.guru.bookingku.Network;
 
+import com.example.guru.bookingku.Activity.History.RegisterRespon;
+import com.example.guru.bookingku.Activity.Notification.NotificationModel;
 import com.example.guru.bookingku.Fragment.Home.data_item_spa;
+import com.example.guru.bookingku.Fragment.PromonInfo.ResonWaktuFalse;
 import com.example.guru.bookingku.Model.BookingResponse;
 import com.example.guru.bookingku.Model.Profile;
 import retrofit2.Call;
@@ -9,24 +12,41 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface BookingService {
-    @GET("api/product")
-    Call<List<data_item_spa>> dataProduct();
+
+    @GET("api/product/kuku")
+    Call<List<data_item_spa>> dataProductkuku();
+
+    @GET("api/product/facial")
+    Call<List<data_item_spa>> dataProductfacial();
+
+    @GET("api/product/hair_treatment")
+    Call<List<data_item_spa>> dataProducthair_treadment();
+
+    @GET("api/product/massage")
+    Call<List<data_item_spa>> dataProductmassage();
+
+    @GET("api/busy")
+    Call<ResonWaktuFalse> dataWaktu();
 
     @POST("api/user/login")
     @FormUrlEncoded
     Call<BookingResponse> login(
             @Field("email") String email,
-            @Field("password") String password
+            @Field("password") String password,
+            @Field("fcm_token") String token
     );
     @POST("api/user/signup")
     @FormUrlEncoded
-    Call<Void> signup(
+    Call<RegisterRespon> signup(
             @Field("email") String email,
             @Field("name") String name,
-            @Field("password") String password
+            @Field("password") String password,
+            @Field("phone") String phone,
+            @Field("fcm_token") String token
     );
 
     @POST("api/user")
@@ -35,14 +55,20 @@ public interface BookingService {
             @Field("id") int id
     );
 
-
+    @POST("api/user/phone")
+    @FormUrlEncoded
+    Call<BookingResponse> insertPhone(
+            @Field("id") int userId,
+            @Field("phone") String phone
+    );
     @POST("api/user/medsos")
     @FormUrlEncoded
     Call<BookingResponse> loginMedsos(
             @Field("name") String name,
             @Field("email") String email,
             @Field("provider") String provider,
-            @Field("avatar") String avatar
+            @Field("avatar") String avatar,
+            @Field("fcm_token") String token
     );
 
     @POST("api/booking")
@@ -57,5 +83,23 @@ public interface BookingService {
     @FormUrlEncoded
     Call<BookingResponse> getAvailableTimeList(
             @Field("date") String date
+    );
+
+    @POST("api/booking/history")
+    @FormUrlEncoded
+    Call<BookingResponse> getHistoryBookingList(
+            @Field("user_id") int userId
+    );
+    @POST("api/refresh")
+    @FormUrlEncoded
+    Call<Void> refreshToken(
+            @Field("id") int id,
+            @Field("fcm_token") String token
+    );
+
+    @POST("api/inbox")
+    @FormUrlEncoded
+    Call<ArrayList<NotificationModel>> getListNotification(
+            @Field("user_id") int userId
     );
 }

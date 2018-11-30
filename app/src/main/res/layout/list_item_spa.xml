@@ -61,7 +61,7 @@
                         android:text="Deskripsi Produk"
                         android:textColor="@color/black"
                         android:textSize="12sp"
-                        android:layout_marginTop="3dp"/>
+                        android:layout_marginTop="5dp"/>
 
                 <TextView
                         android:id="@+id/textview_cost_item"
@@ -73,7 +73,7 @@
                         android:text="Harga"
                         android:textColor="@color/black"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="5dp"
                         android:fontFamily="@font/roboto_light"
                         android:layout_marginBottom="15dp"/>
             </LinearLayout>

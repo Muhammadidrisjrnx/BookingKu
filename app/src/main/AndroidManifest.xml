@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.guru.bookingku">
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
@@ -16,12 +17,11 @@
         <activity android:name=".Activity.Booking.BookingActivity">
         </activity>
         <activity android:name=".Util.ControlClass">
-
         </activity>
         <activity android:name=".Activity.LoginActivity"/>
-
-        <activity android:name=".Activity.History.TimeLineActivity">
-
+        <activity
+                android:name=".Activity.History.TimeLineActivity"
+                android:launchMode="singleTask">
         </activity>
 
         <meta-data
@@ -49,14 +49,45 @@
         </activity>
         <activity android:name=".Activity.RegisterActivity">
         </activity>
-        <activity android:name=".Activity.Main.MainActivity">
+        <activity
+                android:name=".Activity.Main.MainActivity"
+                android:launchMode="singleTask">
         </activity>
-        <activity android:name=".SplashScreen">
+        <activity
+                android:name=".SplashScreen"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.InputPhone">
+        </activity>
+        <activity
+                android:name=".Activity.Detail.DetailHistory"
+                android:parentActivityName=".Activity.History.TimeLineActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".Activity.History.TimeLineActivity"/>
+        </activity>
+        <activity android:name=".Activity.Jenisproduk.Massage">
+            android:value=".Activity.History.TimeLineActivity"/>
+        </activity>
+        <activity android:name=".Activity.Notification.NotificationActivity">
+        </activity>
+        <receiver android:name=".Util.AlarmReceiver"/>
+
+        <activity android:name=".intro"
+        android:theme="@style/Theme.AppCompat.NoActionBar"
+        >
+        </activity>
+
+        <service android:name=".Service.FirebaseMessagingService">
+            <intent-filter>
+            <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
+
 </manifest>
