@@ -45,45 +45,8 @@ public class HomeFragment extends BaseFragment{
 
 
 
-        CardView bankcardId=(CardView)view.findViewById(R.id.bankcardId);
-        bankcardId.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in=new Intent(getActivity(),Massage.class);
-                in.putExtra("category","massage");
-                startActivity(in);
-            }
-        });
 
-        CardView hairku=(CardView)view.findViewById(R.id.hairku);
-        hairku.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in=new Intent(getActivity(),Massage.class);
-                in.putExtra("category","hair treadment");
-                startActivity(in);
-            }
-        });
 
-        CardView facial=(CardView)view.findViewById(R.id.facial);
-        facial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in=new Intent(getActivity(),Massage.class);
-                in.putExtra("category","facial");
-                startActivity(in);
-            }
-        });
-
-        CardView kuku=(CardView)view.findViewById(R.id.kuku);
-        kuku.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in=new Intent(getActivity(),Massage.class);
-                in.putExtra("category","kuku");
-                startActivity(in);
-            }
-        });
     }
 
 }
