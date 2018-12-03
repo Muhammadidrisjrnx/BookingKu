@@ -4,10 +4,17 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="white">#ffffff</color>
+
     <color name="black">#3e3e3e</color>
     <color name="grey">#ededed</color>
     <color name="grey2">#c7c7c7</color>
+
+
+    <color name="white">@android:color/white</color>
+    <color name="darkGray">@android:color/darker_gray</color>
+    <color name="transparent">#00000000</color>
+    <color name="mediumTransparent">#3c000000</color>
+    <color name="largeTransparent">#71000000</color>
 
     <color name="colorBackground">#eeeeee</color>
 

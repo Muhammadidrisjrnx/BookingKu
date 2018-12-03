@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +58,10 @@ public class DetailActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        TextView txtnote2=(TextView)findViewById(R.id.txtnote2);
+        txtnote2.setText(Html.fromHtml("&#8226;")+"makanan");
+
 
 
         ButterKnife.bind(this);

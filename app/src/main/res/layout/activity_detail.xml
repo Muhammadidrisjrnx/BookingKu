@@ -68,7 +68,6 @@
 
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
-
                     <android.support.v7.widget.CardView
                             android:layout_margin="10dp"
                             android:layout_width="match_parent"
@@ -101,6 +100,42 @@
                                     android:layout_height="wrap_content"
                                     android:padding="10dp"
                                     android:text="description"/>
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+                    <android.support.v7.widget.CardView
+                            android:layout_margin="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="2dp"
+                            app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:translationY="0dp">
+
+                            <TextView
+                                    android:id="@+id/txtnote"
+                                    style="@style/TextAppearance.AppCompat.Small"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_margin="10dp"
+                                    android:text="Note"
+                                    android:textColor="#FF0000"
+                                    android:textStyle="bold"/>
+
+                            <TextView
+                                    android:textStyle="bold"
+                                    android:id="@+id/txtnote2"
+                                    style="@style/TextAppearance.AppCompat.Small"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp"
+                                    android:text="makanan ini enak"/>
 
                         </LinearLayout>
                     </android.support.v7.widget.CardView>

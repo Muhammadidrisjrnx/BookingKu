@@ -1,191 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent" xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:padding="10dp"
         android:background="#fcfcfc"
         android:gravity="center"
         android:id="@+id/ll">
 
-
-    <LinearLayout
-            android:clipToPadding="false"
-            android:gravity="center"
-            android:orientation="horizontal"
+    <android.support.v7.widget.CardView
+            android:id="@+id/cardkuspa1"
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <android.support.v7.widget.CardView
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:id="@+id/bankcardId"
-                android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp">
-            <LinearLayout
+            android:layout_height="180dp"
+            android:layout_marginBottom="1dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:layout_height="wrap_content">
+
                 <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundpurple"
-                        android:src="@drawable/massage"
-                        android:padding="10dp"/>
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:layout_marginTop="10dp"
-                        android:text="Massage"/>
-                <View
+                        android:src="@drawable/spa1"
+                        android:id="@+id/articleImage"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/lightgray"
-                        android:layout_margin="10dp"/>
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Check your bank activities"
-                        android:padding="5dp"
-                        android:textColor="@android:color/darker_gray"/>
+                        android:layout_height="250dp"
+                        android:adjustViewBounds="false"
+                        android:background="@color/darkGray"
+                        android:cropToPadding="true"
+                        android:padding="0dp"
+                        android:paddingBottom="0dp"
+                        android:scaleType="centerCrop" />
 
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp" android:id="@+id/hairku">
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundpink"
-                        android:src="@drawable/rambut"
-                        android:padding="10dp"/>
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:layout_marginTop="10dp"
-                        android:text="Hair Treadment"/>
-                <View
+                        android:id="@+id/articleName"
+                        style="@android:style/TextAppearance.Medium"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/lightgray"
-                        android:layout_margin="10dp"/>
-                <TextView
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Check your bank activities"
-                        android:padding="5dp"
-                        android:textColor="@android:color/darker_gray"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-    </LinearLayout>
-    <LinearLayout
-            android:clipToPadding="false"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <android.support.v7.widget.CardView
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp" android:id="@+id/facial">
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundgreen"
-                        android:src="@drawable/wajah"
-                        android:padding="10dp"/>
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:layout_marginTop="10dp"
-                        android:text="Face Treadment"/>
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/lightgray"
-                        android:layout_margin="10dp"/>
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Check your bank activities"
-                        android:padding="5dp"
-                        android:textColor="@android:color/darker_gray"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp" android:id="@+id/kuku">
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundyello"
+                        android:layout_alignBottom="@+id/articleImage"
+                        android:layout_alignParentStart="true"
+                        android:background="@drawable/gradient_title"
+                        android:elevation="3dp"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:marqueeRepeatLimit="marquee_forever"
                         android:padding="10dp"
-                        android:src="@drawable/kuku"/>
+                        android:singleLine="true"
+                        android:text="Spa tipe 1"
+                        android:textColor="@color/white"
+                        tools:targetApi="lollipop" />
 
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Kuku"
-                        android:textStyle="bold"/>
+            </RelativeLayout>
 
-                <View
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+            android:id="@+id/cardku2"
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginBottom="1dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:src="@drawable/spa1"
+                        android:id="@+id/articleImage2"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_margin="10dp"
-                        android:background="@color/lightgray"/>
+                        android:layout_height="250dp"
+                        android:adjustViewBounds="false"
+                        android:background="@color/darkGray"
+                        android:cropToPadding="true"
+                        android:padding="0dp"
+                        android:paddingBottom="0dp"
+                        android:scaleType="centerCrop" />
 
                 <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/articleName2"
+                        style="@android:style/TextAppearance.Medium"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="Check your bank activities"
-                        android:textColor="@android:color/darker_gray"/>
+                        android:layout_alignBottom="@+id/articleImage2"
+                        android:layout_alignParentStart="true"
+                        android:background="@drawable/gradient_title"
+                        android:elevation="3dp"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:text="Spa tipe 2"
+                        android:textColor="@color/white"
+                        tools:targetApi="lollipop" />
 
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+            </RelativeLayout>
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 
 </LinearLayout>
