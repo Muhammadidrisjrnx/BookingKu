@@ -92,6 +92,7 @@ public class Massage extends AppCompatActivity {
             public void onResponse(Call<List<data_item_spa>> call, Response<List<data_item_spa>> response) {
                 swipeRefreshLayout.setRefreshing(false);
                 try {
+                    arrayList.clear();
                     arrayList.addAll(response.body());
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     adapter = new adapter_list_item_spa(getApplicationContext(), arrayList);

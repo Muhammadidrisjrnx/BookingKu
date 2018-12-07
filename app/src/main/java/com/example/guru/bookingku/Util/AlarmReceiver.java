@@ -12,11 +12,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Bundle extras = intent.getExtras();
         final String title = "Bookingku";
-        final String desc = extras.getString("Layanan anda akan segera dimulai dalam 2 jam lagi");
+        final String desc = "Layanan anda akan segera dimulai dalam 2 jam lagi";
 
-//        startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         NotificationConfig notificationConfig = new NotificationConfig(context);
         notificationConfig.showNotification(title, desc, NOTIFICATION_ID, NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME);
     }

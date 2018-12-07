@@ -32,7 +32,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BookingActivity extends AppCompatActivity implements onItemClickListener {
@@ -73,9 +75,7 @@ public class BookingActivity extends AppCompatActivity implements onItemClickLis
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        Bundle extras = getIntent().getExtras();
-        String NOTIFICATION_CONTENT = "layanan " + extras.getString("order_name") + " akan dimulai 2 jam lagi";
-        alarmConfig = new AlarmConfig(this, NOTIFICATION_TITLE, NOTIFICATION_CONTENT);
+        alarmConfig = new AlarmConfig(this);
         Intent intent = getIntent();
         bundlee = intent.getExtras();
         if (bundlee != null) {
@@ -166,7 +166,18 @@ public class BookingActivity extends AppCompatActivity implements onItemClickLis
         String day_string = String.valueOf(day);
 
         selectedDate = year_string + "-" + month_string + "-" + day_string;
-        txtdateku.setText(selectedDate);
+        String selectedDate2 = day_string + " " + month_string + " " + year_string;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MM yyyy");
+        try{
+            Date formatedDate = formatter.parse(selectedDate2);
+            SimpleDateFormat formatter2 = new SimpleDateFormat("E, dd MMMM yyyy");
+            String datee = formatter2.format(formatedDate);
+            txtdateku.setText(""+ datee);
+            Log.e("DATEEE", "processDatePickerResult: " + formatedDate );
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         Toast.makeText(this, "Date Selected is : " + selectedDate, Toast.LENGTH_SHORT).show();
         BookingService service = BookingClient.getRetrofit().create(BookingService.class);
         Call<BookingResponse> call = service.getAvailableTimeList(selectedDate);

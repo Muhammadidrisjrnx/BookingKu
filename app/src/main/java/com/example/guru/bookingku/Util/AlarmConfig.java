@@ -11,14 +11,11 @@ import java.util.Calendar;
 public class AlarmConfig {
 
     private Context context;
-    private String title, content;
     private int year, month, date, hour, minute;
     private static final int ALARM_REQUEST_CODE = 432;
 
-    public AlarmConfig(Context context, String title, String content) {
+    public AlarmConfig(Context context) {
         this.context = context;
-        this.title = title;
-        this.content = content;
     }
 
     public void setAlarm(int year, int month, int date, int hour, int minute) {
@@ -32,8 +29,6 @@ public class AlarmConfig {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(year, month, date, hour, minute);
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra("notification_title", title);
-        intent.putExtra("notification_content", content);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - (AlarmManager.INTERVAL_HOUR * 2), pendingIntent);
