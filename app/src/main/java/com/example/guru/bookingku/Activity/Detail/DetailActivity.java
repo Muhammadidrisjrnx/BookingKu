@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +15,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.example.guru.bookingku.Activity.Booking.BookingActivity;
-import com.example.guru.bookingku.Model.Item;
+import com.example.guru.bookingku.Activity.Jenisproduk.Price;
+import com.example.guru.bookingku.Fragment.Home.data_item_spa;
 import com.example.guru.bookingku.R;
 
 public class DetailActivity extends AppCompatActivity {
@@ -33,9 +34,17 @@ public class DetailActivity extends AppCompatActivity {
     TextView price_product;
     @BindView(R.id.available_product)
     TextView available_product;
-    Bundle bundlee;
+    @BindView(R.id.txtnote)
+    TextView tvNote;
+    @BindView(R.id.calculated_price_product)
+    TextView tvCalculatedPriceProduct;
+    @BindView(R.id.diskon_product)
+    TextView tvDiskonProduct;
+
+    Bundle extras;
     private boolean getAvailable;
     int idbarang=0;
+    private data_item_spa product;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -58,28 +67,33 @@ public class DetailActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        TextView txtnote2=(TextView)findViewById(R.id.txtnote2);
-        txtnote2.setText(Html.fromHtml("&#8226;")+"makanan");
-
-
-
         ButterKnife.bind(this);
 
-
         Intent intent = getIntent();
-        bundlee = intent.getExtras();
-        if (bundlee != null) {
-            idbarang = bundlee.getInt("id");
-            Integer price = bundlee.getInt("price");
+        extras = intent.getExtras();
+        if (extras != null) {
+            product = extras.getParcelable("product");
+            idbarang = product.getId();
+            Price price = product.getPrice();
+            Log.e("price", "onCreate: " + price.getHarga() );
+            Log.e("price", "onCreate: " + price.getDiskon() );
             Glide.with(getApplicationContext())
-                    .load(bundlee.getString("image"))
+                    .load(product.getImage())
                     .into(imageview_product);
-            name_product.setText(bundlee.getString("name"));
-            description_product.setText(bundlee.getString("description"));
-            price_product.setText(price+"");
-            available_product.setText(bundlee.getString("available"));
-            getAvailable = bundlee.getBoolean("available");
+            name_product.setText(product.getName());
+            description_product.setText(product.getDescription());
+            price_product.setText("Rp " + price.getHarga());
+            if(product.getPrice().getDiskon() != null) {
+                float calculatedPrice = price.getHarga() * price.getDiskon() / 100;
+                tvCalculatedPriceProduct.setText("Rp " + calculatedPrice);
+                tvDiskonProduct.setText(String.valueOf(price.getDiskon()) + "%");
+            } else {
+                tvDiskonProduct.setVisibility(View.GONE);
+                tvCalculatedPriceProduct.setVisibility(View.GONE);
+            }
+            tvNote.setText(product.getNote());
+            getAvailable = product.getAvailable();
+            available_product.setText(String.valueOf(getAvailable));
             if(!getAvailable){
                bookNowBtn.setEnabled(false);
                 bookNowBtn.setText("TIDAK TERSEDIA");
@@ -91,7 +105,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent in =new Intent(getApplicationContext(), BookingActivity.class);
                 in.putExtra("orderid",idbarang);
-                in.putExtra("order_nama", bundlee.getString("name"));
+                in.putExtra("order_nama", extras.getString("name"));
                 startActivity(in);
             }
         });

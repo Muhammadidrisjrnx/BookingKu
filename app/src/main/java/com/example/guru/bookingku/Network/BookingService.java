@@ -17,17 +17,11 @@ import java.util.List;
 
 public interface BookingService {
 
-    @GET("api/product/kuku")
-    Call<List<data_item_spa>> dataProductkuku();
+    @GET("api/product/ala_carte_treatment")
+    Call<List<data_item_spa>> getAlaCarteTreatment();
 
-    @GET("api/product/facial")
-    Call<List<data_item_spa>> dataProductfacial();
-
-    @GET("api/product/hair_treatment")
-    Call<List<data_item_spa>> dataProducthair_treadment();
-
-    @GET("api/product/massage")
-    Call<List<data_item_spa>> dataProductmassage();
+    @GET("api/product/package_treatment")
+    Call<List<data_item_spa>> getPackageTreatment();
 
     @GET("api/busy")
     Call<ResonWaktuFalse> dataWaktu();
@@ -39,8 +33,8 @@ public interface BookingService {
             @Field("password") String password,
             @Field("fcm_token") String token
     );
-    @POST("api/user/signup")
     @FormUrlEncoded
+    @POST("api/user/signup")
     Call<RegisterRespon> signup(
             @Field("email") String email,
             @Field("name") String name,
@@ -49,20 +43,23 @@ public interface BookingService {
             @Field("fcm_token") String token
     );
 
-    @POST("api/user")
+
     @FormUrlEncoded
+    @POST("api/user")
     Call<Profile> userprofile(
             @Field("id") int id
     );
 
-    @POST("api/user/phone")
+
     @FormUrlEncoded
+    @POST("api/user/phone")
     Call<BookingResponse> insertPhone(
             @Field("id") int userId,
             @Field("phone") String phone
     );
-    @POST("api/user/medsos")
+
     @FormUrlEncoded
+    @POST("api/user/medsos")
     Call<BookingResponse> loginMedsos(
             @Field("name") String name,
             @Field("email") String email,
@@ -71,34 +68,39 @@ public interface BookingService {
             @Field("fcm_token") String token
     );
 
-    @POST("api/booking")
+
     @FormUrlEncoded
+    @POST("api/booking")
     Call<BookingResponse> booking(
             @Field("user_id") int userId,
             @Field("order") int order,
             @Field("date") String date
     );
 
-    @POST("api/available-time")
+
     @FormUrlEncoded
+    @POST("api/available-time")
     Call<BookingResponse> getAvailableTimeList(
             @Field("date") String date
     );
 
-    @POST("api/booking/history")
+
     @FormUrlEncoded
+    @POST("api/booking/history")
     Call<BookingResponse> getHistoryBookingList(
             @Field("user_id") int userId
     );
-    @POST("api/refresh")
+
     @FormUrlEncoded
+    @POST("api/refresh")
     Call<Void> refreshToken(
             @Field("id") int id,
             @Field("fcm_token") String token
     );
 
-    @POST("api/inbox")
+
     @FormUrlEncoded
+    @POST("api/inbox")
     Call<ArrayList<NotificationModel>> getListNotification(
             @Field("user_id") int userId
     );

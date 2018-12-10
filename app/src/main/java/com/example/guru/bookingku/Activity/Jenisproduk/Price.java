@@ -3,12 +3,13 @@ package com.example.guru.bookingku.Activity.Jenisproduk;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Price  {
+import java.io.Serializable;
+
+public class Price implements Serializable {
 
     @SerializedName("id")
     @Expose
     private Integer id;
-
 
     @SerializedName("product_id")
     @Expose
@@ -17,7 +18,6 @@ public class Price  {
     @SerializedName("diskon")
     @Expose
     private Integer diskon;
-
 
     @SerializedName("harga")
     @Expose

@@ -27,11 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends BaseFragment{
-    public List<data_item_spa> arrayList = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private ProgressBar pg;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private adapter_list_item_spa adapter;
+//    public List<data_item_spa> arrayList = new ArrayList<>();
+//    private RecyclerView recyclerView;
+//    private ProgressBar pg;
+//    private SwipeRefreshLayout swipeRefreshLayout;
+//    private adapter_list_item_spa adapter;
 
 
     @Override
@@ -48,8 +48,8 @@ public class HomeFragment extends BaseFragment{
         cardkuspa1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(view.getContext(),Massage.class);
-                in.putExtra("category","massage");
+                Intent in=new Intent(view.getContext(), Massage.class);
+                in.putExtra("category","package_treatment");
                 startActivity(in);
             }
         });
@@ -58,8 +58,8 @@ public class HomeFragment extends BaseFragment{
         cardku2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(view.getContext(),Massage.class);
-                in.putExtra("category","hair treadment");
+                Intent in=new Intent(view.getContext(), Massage.class);
+                in.putExtra("category","ala_carte_treatment");
                 startActivity(in);
             }
         });

@@ -32,6 +32,10 @@ public class data_item_spa implements Parcelable {
     @Expose
     private Price price;
 
+    @SerializedName("note")
+    @Expose
+    private String note;
+
     @SerializedName("available")
     @Expose
     private String available;
@@ -46,7 +50,9 @@ public class data_item_spa implements Parcelable {
         image = in.readString();
         category = in.readString();
         description = in.readString();
+        note = in.readString();
         available = in.readString();
+        price = (Price) in.readSerializable();
     }
 
     public static final Creator<data_item_spa> CREATOR = new Creator<data_item_spa>() {
@@ -101,6 +107,10 @@ public class data_item_spa implements Parcelable {
         this.description = description;
     }
 
+    public String getNote() {
+        return note;
+    }
+
     public boolean getAvailable() {
         if (available.equals("true")) {
             return true;
@@ -130,6 +140,8 @@ public class data_item_spa implements Parcelable {
         dest.writeString(image);
         dest.writeString(category);
         dest.writeString(description);
+        dest.writeString(note);
         dest.writeString(available);
+        dest.writeSerializable(price);
     }
 }

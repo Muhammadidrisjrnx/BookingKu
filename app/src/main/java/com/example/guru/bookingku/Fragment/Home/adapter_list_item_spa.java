@@ -45,20 +45,23 @@ public class adapter_list_item_spa extends RecyclerView.Adapter<adapter_list_ite
         holder.cardku.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Integer id = data_item.getId();
-                final String name = data_item.getName();
-                final String image = data_item.getImage();
-                final String description = data_item.getDescription();
-                final Price price = data_item.getPrice();
-                final boolean available = data_item.getAvailable();
-                Intent intent = new Intent(holder.itemView.getContext(),DetailActivity.class);
-                intent.putExtra("id",id);
-                Log.d("idbarang", "onClick: "+id);
-                intent.putExtra("name",name);
-                intent.putExtra("image",image);
-                intent.putExtra("description",description);
-                intent.putExtra("price",price.getHarga());
-                intent.putExtra("available",available);
+//                final Integer id = data_item.getId();
+////                final String name = data_item.getName();
+////                final String image = data_item.getImage();
+////                final String description = data_item.getDescription();
+////                final Price price = data_item.getPrice();
+////                final boolean available = data_item.getAvailable();
+////                Intent intent = new Intent(holder.itemView.getContext(),DetailActivity.class);
+////                intent.putExtra("id",id);
+////                Log.d("idbarang", "onClick: "+id);
+////                intent.putExtra("name",name);
+////                intent.putExtra("image",image);
+////                intent.putExtra("description",description);
+////                intent.putExtra("price",price.getHarga());
+////                intent.putExtra("available",available);
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("product", data_item);
+
                 holder.itemView.getContext().startActivity(intent);
             }
         });

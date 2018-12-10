@@ -179,26 +179,35 @@ public class BookingActivity extends AppCompatActivity implements onItemClickLis
         }
 
         Toast.makeText(this, "Date Selected is : " + selectedDate, Toast.LENGTH_SHORT).show();
-        BookingService service = BookingClient.getRetrofit().create(BookingService.class);
-        Call<BookingResponse> call = service.getAvailableTimeList(selectedDate);
-        call.enqueue(new Callback<BookingResponse>() {
-            @Override
-            public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
-                try {
-                    availableTimeList.addAll(response.body().getAvailableTime());
-                    adapter.notifyDataSetChanged();
-                    txtavailable.setVisibility(View.VISIBLE);
-                } catch (Exception e){
+        int id = getIntent().getExtras().getInt("orderid");
+        Log.e("id", "processDatePickerResult: " + id );
+        if(id == 7){
+            showTradisionalTreatmentTime();
+            txtavailable.setVisibility(View.VISIBLE);
+        } else if (id == 9){
+            showJavanesseTreatmentTime();
+            txtavailable.setVisibility(View.VISIBLE);
+        } else {
+            BookingService service = BookingClient.getRetrofit().create(BookingService.class);
+            Call<BookingResponse> call = service.getAvailableTimeList(selectedDate);
+            call.enqueue(new Callback<BookingResponse>() {
+                @Override
+                public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
+                    try {
+                        availableTimeList.addAll(response.body().getAvailableTime());
+                        adapter.notifyDataSetChanged();
+                        txtavailable.setVisibility(View.VISIBLE);
+                    } catch (Exception e) {
 
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<BookingResponse> call, Throwable t) {
-                Toast.makeText(BookingActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+                @Override
+                public void onFailure(Call<BookingResponse> call, Throwable t) {
+                    Toast.makeText(BookingActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override
@@ -211,5 +220,37 @@ public class BookingActivity extends AppCompatActivity implements onItemClickLis
         bookNowBtn.setEnabled(true);
         Toast.makeText(this, selectedAvailableTime, Toast.LENGTH_SHORT).show();
         tvSelectedDateAndTime.setText(selectedDate + " " + selectedAvailableTime);
+    }
+
+    private void showJavanesseTreatmentTime(){
+        AvailableTime availableTime1 = new AvailableTime();
+        availableTime1.setTime("10:00:00");
+        availableTime1.setAvailable(true);
+        AvailableTime availableTime2 = new AvailableTime();
+        availableTime2.setTime("14:00:00");
+        availableTime2.setAvailable(true);
+        AvailableTime availableTime3 = new AvailableTime();
+        availableTime3.setTime("18:00:00");
+        availableTime3.setAvailable(true);
+        availableTimeList.add(availableTime1);
+        availableTimeList.add(availableTime2);
+        availableTimeList.add(availableTime3);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void showTradisionalTreatmentTime(){
+        AvailableTime availableTime1 = new AvailableTime();
+        availableTime1.setTime("10:10:00");
+        availableTime1.setAvailable(true);
+        AvailableTime availableTime2 = new AvailableTime();
+        availableTime2.setTime("13:30:00");
+        availableTime2.setAvailable(true);
+        AvailableTime availableTime3 = new AvailableTime();
+        availableTime3.setTime("17:30:00");
+        availableTime3.setAvailable(true);
+        availableTimeList.add(availableTime1);
+        availableTimeList.add(availableTime2);
+        availableTimeList.add(availableTime3);
+        adapter.notifyDataSetChanged();
     }
 }

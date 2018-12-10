@@ -40,13 +40,14 @@ public class adapter_time_booking extends RecyclerView.Adapter<adapter_time_book
     public void onBindViewHolder(@NonNull Holder holder, final int i) {
         final AvailableTime availableTime = availableTimeList.get(i);
 
+
         if (!availableTime.getAvailable()){
             holder.tvTime.setText(availableTime.getTime());
             holder.tvTime.setEnabled(false);
         }
         else {
             holder.tvTime.setText(availableTime.getTime());
-
+            holder.tvTime.setEnabled(true);
             if (row_index == i) {
                 holder.tvTime.setBackground(context.getResources().getDrawable(R.drawable.available_time_active_state));
             } else {

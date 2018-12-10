@@ -77,14 +77,10 @@ public class Massage extends AppCompatActivity {
     private void load_data() {
         BookingService bookingService = BookingClient.getRetrofit().create(BookingService.class);
         Log.e("Massage", "load_data: " + data );
-        if (data.equalsIgnoreCase("massage")){
-            call = bookingService.dataProductmassage();
-        }else if (data.equalsIgnoreCase("hair treadment")){
-            call = bookingService.dataProducthair_treadment();
-        }else if (data.equalsIgnoreCase("facial")){
-            call = bookingService.dataProductfacial();
-        }else if (data.equalsIgnoreCase("kuku")){
-            call = bookingService.dataProductkuku();
+        if (data.equalsIgnoreCase("package_treatment")){
+            call = bookingService.getPackageTreatment();
+        }else if (data.equalsIgnoreCase("ala_carte_treatment")) {
+            call = bookingService.getAlaCarteTreatment();
         }
 
         call.enqueue(new Callback<List<data_item_spa>>() {
@@ -103,7 +99,7 @@ public class Massage extends AppCompatActivity {
                     recyclerView.setVisibility(View.VISIBLE);
 
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
 
