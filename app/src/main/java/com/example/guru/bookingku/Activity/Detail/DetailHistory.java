@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
@@ -37,6 +38,7 @@ public class DetailHistory extends AppCompatActivity {
     private String productName;
     private String productDesc;
     private String status;
+    private String code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,19 +65,20 @@ public class DetailHistory extends AppCompatActivity {
             if(status.equals("cancel")){
                 tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light));
             }
-            if (status.equals("done")){
+            if (status.equals("diterima")) {
                 tvStatus.setTextColor(getResources().getColor(android.R.color.holo_green_light));
+                code = detailBooking.getCode();
+                int width =300;
+                int height = 300;
+                int smallestDimension = width < height ? width : height;
+                String qrCodeData = code;
+                //setting parameters for qr code
+                String charset = "UTF-8";
+                Map<EncodeHintType, ErrorCorrectionLevel> hintMap = new HashMap<>();
+                hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+                CreateQRCode(qrCodeData, charset, hintMap, smallestDimension, smallestDimension);
             }
         }
-        int width =300;
-        int height = 300;
-        int smallestDimension = width < height ? width : height;
-        String qrCodeData = "kode booking";
-        //setting parameters for qr code
-        String charset = "UTF-8";
-        Map<EncodeHintType, ErrorCorrectionLevel> hintMap =new HashMap<EncodeHintType, ErrorCorrectionLevel>();
-        hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
-        CreateQRCode(qrCodeData, charset, hintMap, smallestDimension, smallestDimension);
     }
 
     public Bitmap mergeBitmaps(Bitmap overlay, Bitmap bitmap) {
