@@ -2,13 +2,17 @@ package com.example.guru.bookingku.Activity.History;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.guru.bookingku.Activity.Detail.DetailHistory;
 import com.example.guru.bookingku.Model.BookingResponse;
@@ -49,7 +53,7 @@ public class TimeLineActivity extends AppCompatActivity implements onItemClickLi
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(getLinearLayoutManager());
         mRecyclerView.setHasFixedSize(true);
-        mTimeLineAdapter = new TimeLineAdapter(mDataList,TimeLineActivity.this);
+        mTimeLineAdapter = new TimeLineAdapter(mDataList, TimeLineActivity.this);
         mTimeLineAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mTimeLineAdapter);
 

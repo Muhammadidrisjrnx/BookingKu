@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activity.Notification.NotificationActivity">
+    tools:context=".Activity.Notification.NotificationActivity"
+    android:background="@drawable/all_bg">
 
     <android.support.v7.widget.RecyclerView
         android:layout_margin="10dp"

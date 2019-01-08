@@ -52,7 +52,9 @@
         </activity>
         <activity
                 android:name=".Activity.Main.MainActivity"
-                android:launchMode="singleTask">
+                android:launchMode="singleTask"
+
+        >
         </activity>
         <activity
                 android:name=".SplashScreen"
